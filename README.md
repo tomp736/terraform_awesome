@@ -1,2 +1,3 @@
-# terraform_awesome
-Awesome repository for terraform modules
+# awesome_terraform
+
+### Awesome repository for terraform modules
