@@ -1,5 +1,5 @@
 variable "network_name" {
-  description = "(Required) - The name of the network."
+  description = "(Optional) - The name of the network."
   type        = string
   default     = "default"
 }
