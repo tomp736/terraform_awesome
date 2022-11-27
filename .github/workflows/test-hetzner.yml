@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'Test modules/hetzner/node'
 
 on:
   workflow_dispatch:

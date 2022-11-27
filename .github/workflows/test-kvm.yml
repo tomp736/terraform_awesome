@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'Test modules/kvm/node'
 
 on:
   workflow_dispatch:
