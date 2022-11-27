@@ -30,7 +30,7 @@ jobs:
     - 
       name: Create vars file for test.
       run: |
-        echo "hcloud_token = ${{ secrets.HETZNER_TOKEN }}" >> tests/hetzner/default.tfvars
+        echo "hcloud_token = "\"${{ secrets.HETZNER_TOKEN }}\"" >> tests/hetzner/default.tfvars
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
