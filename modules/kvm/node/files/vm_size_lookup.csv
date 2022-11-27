@@ -1,0 +1,11 @@
+size,memory,cpu
+nano,512,2
+micro,1024,2
+microcpu,1024,4
+small,2048,2
+smallcpu,2048,4
+medium,4098,4
+mediumcpu,4098,4
+large,8196,8
+largecpu,8196,16
+xlarge,16384,16

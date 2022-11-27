@@ -1,0 +1,42 @@
+name: 'Test modules/hetzner/node'
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: 
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - 
+      name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ env.BRANCH_NAME }}
+    - 
+      name: Create vars file for test.
+      run: |
+        echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> tests/hetzner/default.tfvars
+    - 
+      name: Terraform Plan
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/hetzner
+        verb: plan
+        init: yes
+        varsFile: default.tfvars
+        planFile: tfplan
