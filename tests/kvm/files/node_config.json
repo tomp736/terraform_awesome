@@ -1,0 +1,57 @@
+{
+    "global" : {
+        "name" : "c0m0.management.inflancka",
+        "description" : "cluster 0 master 0",
+        "size" : "large",
+        "ssh_user" : "sysadmin",
+        "ssh_port" : "2222",
+        "volume_name_prefix" : ""
+    },
+    "disks": [
+        {
+            "name": "root",
+            "pool": "kvm-pool",
+            "base_volume_pool": "mempool",
+            "base_volume_name": "ubuntu-22.04-server-cloudimg-amd64",
+            "format": "qcow2",
+            "size": 53687091200
+        },
+        {
+            "name": "data",
+            "pool": "kvm-pool",
+            "base_volume_name": "",
+            "format": "qcow2",
+            "size": 107374182400
+        }
+    ],
+    "networks": [
+        {
+            "iface": "eth11",
+            "hostname": "c0m0.management.inflancka",
+            "bridge": "br11",
+            "mac": "50:54:00:42:f6:ce",
+            "wait_for_lease": false
+        },
+        {
+            "iface": "eth21",
+            "hostname": "c0m0.development.inflancka",
+            "bridge": "br21",
+            "mac": "50:54:00:1f:a6:a7",
+            "wait_for_lease": false
+        }
+    ],
+    "users": [
+        {
+            "username": "root",
+            "public_keys": [
+                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgBAq+CCGT/of2ROoB1+1NiYqrWSSKrptvD7D7NIYM8 gitlab@gitlab.labrats.work"
+            ]
+        },
+        {
+            "username": "sysadmin",
+            "public_keys": [
+                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgBAq+CCGT/of2ROoB1+1NiYqrWSSKrptvD7D7NIYM8 gitlab@gitlab.labrats.work"
+            ]
+        }
+    ]
+}

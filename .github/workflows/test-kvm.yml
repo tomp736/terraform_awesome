@@ -1,0 +1,42 @@
+name: 'Terraform'
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: 
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - 
+      name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ env.BRANCH_NAME }}
+    - 
+      name: Create vars file for test.
+      run: |
+        echo "libvirt_uri = \"qemu+ssh://${{ secrets.KVM_DEVELOPMENT_USERNAME }}@${{ secrets.KVM_DEVELOPMENT_HOSTNAME }}/system?sshauth=agent&known_hosts_verify=ignore"
+    - 
+      name: Terraform Plan
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/kvm
+        verb: plan
+        init: yes
+        varsFile: default.tfvars
+        planFile: tfplan

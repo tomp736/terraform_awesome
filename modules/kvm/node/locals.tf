@@ -4,7 +4,7 @@ locals {
   vm_sizes_data = { for inst in csvdecode(file("${path.module}/files/vm_size_lookup.csv")) : inst.size => inst }
 
   # JSON Lookup
-  vm_config        = jsondecode(file(var.vm_config_filepath))
+  vm_config        = jsondecode(file(var.config_filepath))
   vm_global        = local.vm_config.global
   vm_networks_data = { for inst in local.vm_config.networks : inst.iface => inst }
   vm_disks_data    = { for inst in local.vm_config.disks : inst.name => inst }

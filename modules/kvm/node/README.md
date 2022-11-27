@@ -17,7 +17,7 @@ Define module to create VM's
 # main.tf
 module "vms" {
   source             = "git@github:labrats/infrastructure/terraform/modules.kvm.git//modules/kvm/node"
-  vm_config_filepath = each.value.vm_config_filepath
+  config_filepath = each.value.config_filepath
 }
 ```
 
@@ -36,6 +36,6 @@ locals {
       config_filepath = "${path.module}/files/c0w0_config.json"
     }
   ]
-}fig_filepath = each.value.vm_config_filepath
+}fig_filepath = each.value.config_filepath
 }
 ```
