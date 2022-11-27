@@ -30,7 +30,7 @@ jobs:
     - 
       name: Create vars file for test.
       run: |
-        echo "libvirt_uri = \"qemu+ssh://${{ secrets.KVM_DEVELOPMENT_USERNAME }}@${{ secrets.KVM_DEVELOPMENT_HOSTNAME }}/system?sshauth=agent&known_hosts_verify=ignore"
+        echo "libvirt_uri = \"qemu+ssh://${{ secrets.KVM_DEVELOPMENT_USERNAME }}@${{ secrets.KVM_DEVELOPMENT_HOSTNAME }}/system?sshauth=agent&known_hosts_verify=ignore" >> tests/kvm/default.tfvars
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
