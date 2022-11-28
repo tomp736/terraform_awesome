@@ -11,9 +11,15 @@ resource "hcloud_server" "node" {
   labels = {
     nodetype = local.hetzner.nodetype
   }
+}
+
+resource "null_resource" "name" {
+  depends_on = [
+    hcloud_server.node
+  ]
 
   connection {
-    host    = self.ipv4_address
+    host    = hcloud_server.node.ipv4_address
     agent   = true
     user    = local.hetzner.ssh_user
     port    = local.hetzner.ssh_port

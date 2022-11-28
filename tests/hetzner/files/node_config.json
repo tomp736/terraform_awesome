@@ -3,7 +3,7 @@
         "name": "hetzner.name",
         "location": "nbg1",
         "image": "ubuntu-22.04",
-        "server_type": "cx21",
+        "server_type": "cx11",
         "nodetype": "master",
         "network_zone": "eu-central",
         "ssh_user": "sysadmin",
