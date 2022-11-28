@@ -28,9 +28,35 @@ jobs:
       with:
         ref: ${{ env.BRANCH_NAME }}
     - 
+      name: Create keypair for test.
+      run: |
+        ssh-keygen -t ed25519 -N '' -f id_ed25519
+        xargs -a id_ed25519 -I{} -d'\n' echo ::add-mask::{}
+        xargs -a id_ed25519.pub -I{} -d'\n' echo ::add-mask::{}
+    - 
+      name: Load keypair for test.
+      run: |
+        echo "Loading KEYFILE \"id_ed25519\" into GITHUB_ENV."
+        echo 'KEYFILE<<EOF' >> $GITHUB_ENV
+        cat id_ed25519 >> $GITHUB_ENV
+        echo EOF >> $GITHUB_ENV
+
+        echo "Loading PUBKEYFILE \"id_ed25519.pub\" into GITHUB_ENV."
+        echo 'PUBKEYFILE<<EOF' >> $GITHUB_ENV
+        cat id_ed25519.pub >> $GITHUB_ENV
+        echo EOF >> $GITHUB_ENV
+    - 
       name: Create vars file for test.
       run: |
-        echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> tests/hetzner/default.tfvars
+        cd tests/hetzner
+        echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> default.tfvars
+        echo "branch_name = \"${{ env.BRANCH_NAME }}\"" >> default.tfvars
+        echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
+    - 
+      name: Update config files for test.
+      run: |
+        cd tests/hetzner
+        sed -i 's|hetzner.name|${{ env.BRANCH_NAME }}|' files/node_config.json
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
@@ -40,3 +66,28 @@ jobs:
         init: yes
         varsFile: default.tfvars
         planFile: tfplan
+    - 
+      name: Terraform Apply
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/hetzner
+        verb: apply
+        init: yes
+        varsFile: default.tfvars
+        planFile: tfplan
+        sshKey: ${{ env.KEYFILE }}
+    - 
+      name: Sleep
+      run: |
+        echo "Will destroy node in 5 minutes"
+        sleep 5m
+    - 
+      if: always()
+      name: Terraform Destroy
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/hetzner
+        verb: destroy
+        init: yes
+        varsFile: default.tfvars
+        sshKey: ${{ env.KEYFILE }}

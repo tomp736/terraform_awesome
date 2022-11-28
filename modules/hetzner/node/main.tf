@@ -6,25 +6,30 @@ resource "hcloud_server" "node" {
   server_type = local.hetzner.server_type
 
   # cloud-init
-  user_data = "#cloud-config\n${local.cloud_init_user_data}"
+  user_data = "#cloud-config\n${var.cloud_init_user_data}"
 
   labels = {
     nodetype = local.hetzner.nodetype
   }
+}
+
+resource "null_resource" "cloud-init" {
+  depends_on = [
+    hcloud_server.node
+  ]
 
   connection {
-    host    = self.ipv4_address
+    host    = hcloud_server.node.ipv4_address
     agent   = true
-    user    = local.cloud_init.users[0].username
-    port    = local.cloud_init.ssh_port
+    user    = local.hetzner.ssh_user
+    port    = local.hetzner.ssh_port
     type    = "ssh"
-    timeout = "10m"
+    timeout = "5m"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "sleep 60",
-      "cloud-init status --wait"
+      "sleep 60 && cloud-init status --wait"
     ]
     on_failure = continue
   }

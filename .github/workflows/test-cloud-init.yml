@@ -1,0 +1,80 @@
+name: 'Test modules/cloud-init'
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: 
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - 
+      name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ env.BRANCH_NAME }}
+    - 
+      name: Terraform Plan
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/cloud-init
+        verb: plan
+        init: yes
+        planFile: tfplan
+    - 
+      name: Terraform Apply
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/cloud-init
+        verb: apply
+        init: yes
+        planFile: tfplan
+    - 
+      name: Upload metadata file
+      uses: actions/upload-artifact@v3
+      with:
+        path: tests/cloud-init/metadata
+        if-no-files-found: error
+    - 
+      name: Test metadata file
+      run: |
+        cd tests/cloud-init
+        diff metadata default/metadata || exit 1
+        exit 0
+    - 
+      name: Upload network_config file
+      uses: actions/upload-artifact@v3
+      with:
+        path: tests/cloud-init/network_config
+        if-no-files-found: error
+    - 
+      name: Test network_config file
+      run: |
+        cd tests/cloud-init
+        diff network_config default/network_config || exit 1
+        exit 0
+    - 
+      name: Upload user_data file
+      uses: actions/upload-artifact@v3
+      with:
+        path: tests/cloud-init/user_data
+        if-no-files-found: error
+    - 
+      name: Test user_data
+      run: |
+        cd tests/cloud-init
+        diff user_data default/user_data || exit 1
+        exit 0
