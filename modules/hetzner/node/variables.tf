@@ -1,5 +1,5 @@
-variable "config_filepath" {
-  description = "json configuration path"
+variable "node_config_json" {
+  description = "node config json"
   type        = string
 }
 
