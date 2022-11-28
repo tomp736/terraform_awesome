@@ -28,11 +28,28 @@ jobs:
       with:
         ref: ${{ env.BRANCH_NAME }}
     - 
+      name: Create keypair for test.
+      run: |
+        ssh-keygen -t ed25519 -N '' -f id_ed25519
+        xargs -a id_ed25519 -I{} -d'\n' echo ::add-mask::{}
+        xargs -a ed25519 -I{} -d'\n' echo ::add-mask::{}
+
+        echo "Loading KEYFILE \"id_ed25519\" into GITHUB_ENV."
+        echo 'KEYFILE<<EOF' >> $GITHUB_ENV
+        cat id_ed25519 >> $GITHUB_ENV
+        echo EOF >> $GITHUB_ENV
+
+        echo "Loading PUBKEYFILE \"ed25519\" into GITHUB_ENV."
+        echo 'PUBKEYFILE<<EOF' >> $GITHUB_ENV
+        cat ed25519 >> $GITHUB_ENV
+        echo EOF >> $GITHUB_ENV
+    - 
       name: Create vars file for test.
       run: |
         cd tests/hetzner
         echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> default.tfvars
         echo "branch_name = \"${{ env.BRANCH_NAME }}\"" >> default.tfvars
+        echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
     - 
       name: Update config files for test.
       run: |
@@ -56,6 +73,7 @@ jobs:
         init: yes
         varsFile: default.tfvars
         planFile: tfplan
+        sshKey: ${{ env.KEYFILE }}
     - 
       name: Sleep
       run: |
@@ -70,3 +88,4 @@ jobs:
         verb: destroy
         init: yes
         varsFile: default.tfvars
+        sshKey: ${{ env.KEYFILE }}

@@ -21,6 +21,7 @@ module "cloud_init" {
       name  = "sysadmin"
       shell = "/bin/bash"
       ssh-authorized-keys = [
+        var.github_public_key,
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDxJpolhuDKTr4KpXnq5gPTKYUnoKyAnpIR4k5m3XCH u0@prt-dev-01"
       ]
     }
