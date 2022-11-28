@@ -33,7 +33,9 @@ jobs:
         ssh-keygen -t ed25519 -N '' -f id_ed25519
         xargs -a id_ed25519 -I{} -d'\n' echo ::add-mask::{}
         xargs -a id_ed25519.pub -I{} -d'\n' echo ::add-mask::{}
-
+    - 
+      name: Load keypair for test.
+      run: |
         echo "Loading KEYFILE \"id_ed25519\" into GITHUB_ENV."
         echo 'KEYFILE<<EOF' >> $GITHUB_ENV
         cat id_ed25519 >> $GITHUB_ENV
