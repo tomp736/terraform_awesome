@@ -13,7 +13,7 @@ resource "hcloud_server" "node" {
   }
 }
 
-resource "null_resource" "name" {
+resource "null_resource" "cloud-init" {
   depends_on = [
     hcloud_server.node
   ]
