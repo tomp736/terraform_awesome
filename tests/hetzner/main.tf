@@ -27,6 +27,11 @@ module "cloud_init" {
     }
   ]
 
+  runcmd = [
+    "mkdir -p /etc/ssh/sshd_config.d",
+    "echo \"Port 2222\" > /etc/ssh/sshd_config.d/90-defaults.conf"
+  ]
+
 }
 
 module "node" {
