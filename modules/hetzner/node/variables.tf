@@ -4,6 +4,6 @@ variable "config_filepath" {
 }
 
 variable "cloud_init_user_data" {
-  description = "cloud_init"
+  description = "cloud init user data"
   type        = string
 }
