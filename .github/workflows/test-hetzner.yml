@@ -55,7 +55,7 @@ jobs:
       run: |
         cd tests/hetzner
         echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> default.tfvars
-        echo "branch_name = \"${{ env.BRANCH_NAME }}\"" >> default.tfvars
+        echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" >> default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
     - 
       name: Update config files for test.

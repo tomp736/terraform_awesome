@@ -2,14 +2,14 @@
 
 module "network" {
   source       = "../../modules/hetzner/network"
-  network_name = var.branch_name
+  network_name = var.test_id
 }
 
 module "cloud_init" {
   source = "../../modules/cloud-init"
 
   general = {
-    hostname                   = var.branch_name
+    hostname                   = var.test_id
     package_reboot_if_required = true
     package_update             = true
     package_upgrade            = true
