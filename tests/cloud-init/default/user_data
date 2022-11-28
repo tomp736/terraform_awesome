@@ -1,0 +1,18 @@
+final_message: "The system is finally up, after $UPTIME seconds"
+package_reboot_if_required: true
+package_update: true
+package_upgrade: true
+power_state:
+  condition: true
+  message: "Finished cloud init. Rebooting."
+  mode: "reboot"
+runcmd:
+- "mkdir -p /etc/ssh/sshd_config.d"
+- "echo \"Port 2222\" > /etc/ssh/sshd_config.d/90-defaults.conf"
+- "semanage port -a -t ssh_port_t -p tcp 2222"
+timezone: "UTC"
+users:
+- name: "root"
+  shell: "/bin/bash"
+  ssh-authorized-keys: []
+

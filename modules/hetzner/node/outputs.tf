@@ -4,7 +4,7 @@ output "ipv4_address" {
 }
 
 output "id" {
-  value = hcloud_server.node.id
+  value     = hcloud_server.node.id
   sensitive = true
 }
 

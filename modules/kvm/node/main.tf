@@ -21,26 +21,26 @@ resource "libvirt_domain" "vm_node" {
 
   dynamic "disk" {
     for_each = concat(
-    [
-      {
-        volume_id    = libvirt_volume.volume_root.id
-        scsi         = "false"
-        block_device = ""
-        file         = ""
-        url          = ""
-        wwn          = ""
-      }
-    ],
-    [
-      for vm_volume in libvirt_volume.volume_data :
-      {
-        volume_id    = vm_volume.id
-        scsi         = "false"
-        block_device = ""
-        file         = ""
-        url          = ""
-        wwn          = ""
-      }
+      [
+        {
+          volume_id    = libvirt_volume.volume_root.id
+          scsi         = "false"
+          block_device = ""
+          file         = ""
+          url          = ""
+          wwn          = ""
+        }
+      ],
+      [
+        for vm_volume in libvirt_volume.volume_data :
+        {
+          volume_id    = vm_volume.id
+          scsi         = "false"
+          block_device = ""
+          file         = ""
+          url          = ""
+          wwn          = ""
+        }
     ])
     content {
       volume_id    = disk.value.volume_id

@@ -1,7 +1,7 @@
 # ./main.tf
 
 module "network" {
-  source          = "../../modules/hetzner/network"  
+  source = "../../modules/hetzner/network"
 }
 
 module "node" {
