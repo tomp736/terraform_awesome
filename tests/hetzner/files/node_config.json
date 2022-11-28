@@ -1,6 +1,6 @@
 {
     "hetzner": {
-        "name": "test",
+        "name": "github-test",
         "location": "nbg1",
         "image": "ubuntu-22.04",
         "server_type": "cx21",
