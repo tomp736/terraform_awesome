@@ -3,8 +3,8 @@ name: 'Test modules/kvm/node'
 on:
   workflow_dispatch:
   push:
-    branches-ignore: 
-      - main
+    paths:
+      - 'modules/kvm/**'
 
 permissions:
   contents: read

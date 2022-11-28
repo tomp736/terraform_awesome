@@ -3,8 +3,8 @@ name: 'Test modules/hetzner/node'
 on:
   workflow_dispatch:
   push:
-    branches-ignore: 
-      - main
+    paths:
+      - 'modules/hetzner/**'
 
 permissions:
   contents: read
