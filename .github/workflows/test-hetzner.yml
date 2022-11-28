@@ -21,6 +21,10 @@ jobs:
       run:
         shell: bash
 
+    strategy:
+      matrix: 
+        image: [ debian-11, fedora-36, rocky-9, ubuntu-22.04 ]
+
     steps:
     - 
       name: Checkout
@@ -56,7 +60,8 @@ jobs:
       name: Update config files for test.
       run: |
         cd tests/hetzner
-        sed -i 's|hetzner.name|${{ env.BRANCH_NAME }}|' files/node_config.json
+        sed -i 's|hetzner.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/node_config.json
+        sed -i 's|hetzner.image|${{ matrix.image }}|' files/node_config.json
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main

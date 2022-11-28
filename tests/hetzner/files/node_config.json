@@ -2,9 +2,9 @@
     "hetzner": {
         "name": "hetzner.name",
         "location": "nbg1",
-        "image": "ubuntu-22.04",
+        "image": "hetzner.image",
         "server_type": "cx11",
-        "nodetype": "master",
+        "nodetype": "test",
         "network_zone": "eu-central",
         "ssh_user": "sysadmin",
         "ssh_port": "2222"
