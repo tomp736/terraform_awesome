@@ -4,20 +4,9 @@
         "location": "nbg1",
         "image": "ubuntu-22.04",
         "server_type": "cx21",
-        "nodetype" : "master",
-        "network_zone": "eu-central"
-    },
-    "cloud_init": {
-        "ssh_port": "2222",
-        "users": [
-            {
-                "username": "sysadmin",
-                "public_keys": [
-                    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgBAq+CCGT/of2ROoB1+1NiYqrWSSKrptvD7D7NIYM8 gitlab@gitlab.labrats.work"
-                ],
-                "sudo": "ALL=(ALL) NOPASSWD:ALL",
-                "groups": "sudo"
-            }
-        ]
+        "nodetype": "master",
+        "network_zone": "eu-central",
+        "ssh_user": "sysadmin",
+        "ssh_port": "2222"
     }
 }

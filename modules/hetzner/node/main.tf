@@ -6,7 +6,7 @@ resource "hcloud_server" "node" {
   server_type = local.hetzner.server_type
 
   # cloud-init
-  user_data = "#cloud-config\n${local.cloud_init_user_data}"
+  user_data = "#cloud-config\n${var.cloud_init_user_data}"
 
   labels = {
     nodetype = local.hetzner.nodetype
