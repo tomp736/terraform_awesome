@@ -13,7 +13,6 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
@@ -44,20 +43,39 @@ jobs:
         init: yes
         planFile: tfplan
     - 
+      name: Upload metadata file
+      uses: actions/upload-artifact@v3
+      with:
+        name: cloud-init-files
+        path: tests/cloud-init/metadata
+        if-no-files-found: error
+    - 
       name: Test metadata file
       run: |
         cd tests/cloud-init
         diff metadata default/metadata || exit 1
         exit 0
     - 
-      name: Test networkconfig file
+      name: Upload network_config file
+      uses: actions/upload-artifact@v3
+      with:
+        path: tests/cloud-init/network_config
+        if-no-files-found: error
+    - 
+      name: Test network_config file
       run: |
         cd tests/cloud-init
-        diff metadata default/metadata || exit 1
+        diff network_config default/network_config || exit 1
         exit 0
     - 
-      name: Test userdatafile
+      name: Upload user_data file
+      uses: actions/upload-artifact@v3
+      with:
+        path: tests/cloud-init/user_data
+        if-no-files-found: error
+    - 
+      name: Test user_data
       run: |
         cd tests/cloud-init
-        diff metadata default/metadata || exit 1
+        diff user_data default/user_data || exit 1
         exit 0
