@@ -57,6 +57,11 @@ jobs:
         varsFile: default.tfvars
         planFile: tfplan
     - 
+      name: Sleep
+      run: |
+        echo "Will destroy node in 2 minutes"
+        sleep 120
+    - 
       if: always()
       name: Terraform Destroy
       uses: labrats-work/action-terraform@main
