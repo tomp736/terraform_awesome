@@ -31,6 +31,7 @@ jobs:
       name: Create vars file for test.
       run: |
         echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> tests/hetzner/default.tfvars
+        echo "branch_name = \"${{ env.BRANCH_NAME }}\"" >> tests/hetzner/default.tfvars
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
@@ -50,6 +51,7 @@ jobs:
         varsFile: default.tfvars
         planFile: tfplan
     - 
+      if: always()
       name: Terraform Destroy
       uses: labrats-work/action-terraform@main
       with:
@@ -57,4 +59,3 @@ jobs:
         verb: destroy
         init: yes
         varsFile: default.tfvars
-        planFile: tfplan

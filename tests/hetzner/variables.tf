@@ -3,3 +3,9 @@ variable "hcloud_token" {
   type        = string
   sensitive   = true
 }
+
+variable "branch_name" {
+  description = "(Required) - Branch name for testing."
+  type        = string
+  sensitive   = true
+}
