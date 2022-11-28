@@ -16,6 +16,16 @@ module "cloud_init" {
     timezone                   = "Europe/Warsaw"
   }
 
+  users_data = [
+    {
+      name  = "sysadmin"
+      shell = "/bin/bash"
+      ssh-authorized-keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDxJpolhuDKTr4KpXnq5gPTKYUnoKyAnpIR4k5m3XCH u0@prt-dev-01"
+      ]
+    }
+  ]
+
 }
 
 module "node" {
