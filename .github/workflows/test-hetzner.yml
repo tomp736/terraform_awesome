@@ -39,9 +39,9 @@ jobs:
         cat id_ed25519 >> $GITHUB_ENV
         echo EOF >> $GITHUB_ENV
 
-        echo "Loading PUBKEYFILE \"ed25519\" into GITHUB_ENV."
+        echo "Loading PUBKEYFILE \"id_ed25519.pub\" into GITHUB_ENV."
         echo 'PUBKEYFILE<<EOF' >> $GITHUB_ENV
-        cat ed25519 >> $GITHUB_ENV
+        cat id_ed25519.pub >> $GITHUB_ENV
         echo EOF >> $GITHUB_ENV
     - 
       name: Create vars file for test.
