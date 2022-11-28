@@ -59,8 +59,8 @@ jobs:
     - 
       name: Sleep
       run: |
-        echo "Will destroy node in 2 minutes"
-        sleep 120
+        echo "Will destroy node in 5 minutes"
+        sleep 5m
     - 
       if: always()
       name: Terraform Destroy
