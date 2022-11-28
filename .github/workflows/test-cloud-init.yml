@@ -3,8 +3,8 @@ name: 'Test modules/cloud-init'
 on:
   workflow_dispatch:
   push:
-    branches-ignore: 
-      - main
+    paths:
+      - 'modules/cloud-init/**'
 
 permissions:
   contents: read
