@@ -49,3 +49,12 @@ jobs:
         init: yes
         varsFile: default.tfvars
         planFile: tfplan
+    - 
+      name: Terraform Destroy
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/hetzner
+        verb: destroy
+        init: yes
+        varsFile: default.tfvars
+        planFile: tfplan
