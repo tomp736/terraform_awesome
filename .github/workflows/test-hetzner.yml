@@ -40,3 +40,12 @@ jobs:
         init: yes
         varsFile: default.tfvars
         planFile: tfplan
+    - 
+      name: Terraform Apply
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/hetzner
+        verb: apply
+        init: yes
+        varsFile: default.tfvars
+        planFile: tfplan
