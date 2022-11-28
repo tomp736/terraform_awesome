@@ -29,8 +29,7 @@ resource "null_resource" "cloud-init" {
 
   provisioner "remote-exec" {
     inline = [
-      "sleep 60",
-      "cloud-init status --wait"
+      "sleep 60 && cloud-init status --wait"
     ]
     on_failure = continue
   }
