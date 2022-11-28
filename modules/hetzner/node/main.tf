@@ -24,7 +24,7 @@ resource "null_resource" "cloud-init" {
     user    = local.hetzner.ssh_user
     port    = local.hetzner.ssh_port
     type    = "ssh"
-    timeout = "10m"
+    timeout = "5m"
   }
 
   provisioner "remote-exec" {
