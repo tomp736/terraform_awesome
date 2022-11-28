@@ -22,6 +22,7 @@ jobs:
         shell: bash
 
     strategy:
+      fail-fast: false
       matrix: 
         image: [ debian-11, fedora-36, rocky-9, ubuntu-22.04 ]
 
