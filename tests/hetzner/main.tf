@@ -35,6 +35,6 @@ module "cloud_init" {
 
 module "node" {
   source               = "../../modules/hetzner/node"
-  node_config_json     = file("files/node_config.json")
+  node_config          = jsondecode(file("files/node_config.json")).hetzner
   cloud_init_user_data = module.cloud_init.user_data
 }
