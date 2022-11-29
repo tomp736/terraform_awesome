@@ -1,15 +1,15 @@
 resource "hcloud_server" "node" {
   # hetzner
-  name        = local.hetzner.name
-  location    = local.hetzner.location
-  image       = local.hetzner.image
-  server_type = local.hetzner.server_type
+  name        = var.node_config.name
+  location    = var.node_config.location
+  image       = var.node_config.image
+  server_type = var.node_config.server_type
 
   # cloud-init
   user_data = "#cloud-config\n${var.cloud_init_user_data}"
 
   labels = {
-    nodetype = local.hetzner.nodetype
+    nodetype = var.node_config.nodetype
   }
 }
 
@@ -21,8 +21,8 @@ resource "null_resource" "cloud-init" {
   connection {
     host    = hcloud_server.node.ipv4_address
     agent   = true
-    user    = local.hetzner.ssh_user
-    port    = local.hetzner.ssh_port
+    user    = var.node_config.ssh_user
+    port    = var.node_config.ssh_port
     type    = "ssh"
     timeout = "5m"
   }
