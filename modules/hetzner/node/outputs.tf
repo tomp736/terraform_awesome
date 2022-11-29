@@ -9,10 +9,10 @@ output "id" {
 }
 
 output "name" {
-  value     = local.hetzner.name
+  value     = var.node_config.name
   sensitive = true
 }
 
 output "nodetype" {
-  value = local.hetzner.nodetype
+  value = var.node_config.nodetype
 }
