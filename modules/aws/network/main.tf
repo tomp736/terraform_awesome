@@ -1,12 +1,4 @@
-resource "aws_internet_gateway" "gateway" {
-  vpc_id = aws_vpc.network.id
-
-  tags = {
-    Name = var.network_name
-  }
-}
-
-resource "aws_vpc" "network" {
+resource "aws_vpc" "default" {
   cidr_block = var.network_ip_range
 
   tags = {
@@ -14,10 +6,32 @@ resource "aws_vpc" "network" {
   }
 }
 
-resource "aws_subnet" "subnet" {
+resource "aws_default_vpc_dhcp_options" "default" {
+  tags = {
+    name = var.network_name
+  }
+}
+resource "aws_vpc_dhcp_options_association" "default" {
+  vpc_id          = aws_vpc.network.id
+  dhcp_options_id = aws_vpc_dhcp_options.default.id
+}
+
+resource "aws_internet_gateway" "default" {
+  vpc_id = aws_vpc.network.id
+
+  tags = {
+    name = var.network_name
+  }
+}
+resource "aws_internet_gateway_attachment" "default" {
+  internet_gateway_id = aws_internet_gateway.default.id
+  vpc_id              = aws_vpc.default.id
+}
+
+resource "aws_subnet" "default" {
   for_each = { for subnet in var.network_subnet_ranges : subnet => subnet }
 
-  vpc_id            = aws_vpc.network.id
+  vpc_id            = aws_vpc.default.id
   cidr_block        = each.value
   availability_zone = var.network_zone
 
@@ -28,8 +42,8 @@ resource "aws_subnet" "subnet" {
 
 resource "aws_security_group" "ingress_allow_tls_2222" {
   depends_on = [
-    aws_vpc.network,
-    aws_subnet.subnet
+    aws_vpc.default,
+    aws_subnet.default
   ]
 
   name        = "ingress_allow_tls_2222"
