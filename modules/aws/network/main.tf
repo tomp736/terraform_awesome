@@ -18,10 +18,6 @@ resource "aws_default_vpc_dhcp_options" "default" {
 resource "aws_vpc_dhcp_options_association" "default" {
   vpc_id          = aws_vpc.default.id
   dhcp_options_id = aws_default_vpc_dhcp_options.default.id
-
-  tags = {
-    Name = var.network_name
-  }
 }
 
 
@@ -50,10 +46,6 @@ resource "aws_internet_gateway" "default" {
 resource "aws_internet_gateway_attachment" "default" {
   internet_gateway_id = aws_internet_gateway.default.id
   vpc_id              = aws_vpc.default.id
-
-  tags = {
-    Name = var.network_name
-  }
 }
 
 # VPC ROUTE TABLE
