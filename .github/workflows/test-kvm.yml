@@ -4,7 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/workflows/test-kvm.yml'
       - 'modules/kvm/**'
+      - 'tests/kvm/**'
 
 permissions:
   contents: read
