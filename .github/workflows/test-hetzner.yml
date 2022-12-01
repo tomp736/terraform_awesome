@@ -56,13 +56,12 @@ jobs:
       run: |
         cd tests/hetzner
         echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> default.tfvars
-        echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" >> default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
     - 
       name: Update config files for test.
       run: |
         cd tests/hetzner
-        sed -i 's|hetzner.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/config.json
+        sed -i 's|hetzner.name|${{ github.sha }}-${{ matrix.image }}|' files/config.json
         sed -i 's|hetzner.image|${{ matrix.image }}|' files/config.json
     - 
       name: Terraform Plan

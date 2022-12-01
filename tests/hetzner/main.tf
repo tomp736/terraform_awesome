@@ -1,14 +1,20 @@
 # ./main.tf
 
+locals {
+  config   = jsondecode(file("files/config.json")).networks[0].hetzner.name
+  networks = config.networks
+  nodes    = config.nodes
+}
+
 module "network" {
   source       = "../../modules/hetzner/network"
-  network_name = var.test_id
+  network_name = networks[0].hetzner.name
 }
 
 module "cloud_init" {
   source = "../../modules/cloud-init"
   general = {
-    hostname                   = var.test_id
+    hostname                   = nodes[0].hetzner.name
     package_reboot_if_required = true
     package_update             = true
     package_upgrade            = true
@@ -31,6 +37,6 @@ module "cloud_init" {
 
 module "node" {
   source               = "../../modules/hetzner/node"
-  node_config          = jsondecode(file("files/config.json")).nodes[0].hetzner
+  node_config          = nodes[0].hetzner
   cloud_init_user_data = module.cloud_init.user_data
 }
