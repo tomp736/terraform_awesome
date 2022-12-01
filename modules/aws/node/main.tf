@@ -30,7 +30,7 @@ resource "aws_instance" "node" {
   user_data = "#cloud-config\n${var.cloud_init_user_data}"
 
   network_interface {
-    network_interface_id = network_interface.net0.id
+    network_interface_id = aws_network_interface.net0.id
     device_index         = 0
   }
 
