@@ -21,6 +21,11 @@ resource "aws_network_interface" "net0" {
   }
 }
 
+resource "aws_eip" "one" {
+  vpc                       = true
+  network_interface         = aws_network_interface.net0
+}
+
 resource "aws_instance" "node" {
   # aws
   ami           = data.aws_ami.ubuntu.id
