@@ -13,7 +13,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_network_interface" "net0" {
+resource "aws_network_interface" "default" {
   subnet_id = var.subnet_id
 
   tags = {
@@ -21,9 +21,9 @@ resource "aws_network_interface" "net0" {
   }
 }
 
-resource "aws_eip" "one" {
+resource "aws_eip" "default" {
   vpc                       = true
-  network_interface         = aws_network_interface.net0
+  network_interface         = aws_network_interface.default.id
 }
 
 resource "aws_instance" "node" {
@@ -35,7 +35,7 @@ resource "aws_instance" "node" {
   user_data = "#cloud-config\n${var.cloud_init_user_data}"
 
   network_interface {
-    network_interface_id = aws_network_interface.net0.id
+    network_interface_id = aws_network_interface.default.id
     device_index         = 0
   }
 
