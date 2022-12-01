@@ -43,11 +43,6 @@ resource "aws_internet_gateway" "default" {
   }
 }
 
-resource "aws_internet_gateway_attachment" "default" {
-  internet_gateway_id = aws_internet_gateway.default.id
-  vpc_id              = aws_vpc.default.id
-}
-
 # VPC ROUTE TABLE
 resource "aws_route_table" "default" {
   vpc_id = aws_vpc.default.id
