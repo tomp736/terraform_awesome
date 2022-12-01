@@ -1,3 +1,5 @@
+
+# VPC
 resource "aws_vpc" "default" {
   cidr_block = var.network_ip_range
 
@@ -6,6 +8,33 @@ resource "aws_vpc" "default" {
   }
 }
 
+# VPC DHCP OPTIONS
+resource "aws_default_vpc_dhcp_options" "default" {
+  tags = {
+    name = var.network_name
+  }
+}
+
+resource "aws_vpc_dhcp_options_association" "default" {
+  vpc_id          = aws_vpc.default.id
+  dhcp_options_id = aws_default_vpc_dhcp_options.default.id
+}
+
+# VPC GATEWAY
+resource "aws_internet_gateway" "default" {
+  vpc_id = aws_vpc.default.id
+
+  tags = {
+    name = var.network_name
+  }
+}
+
+resource "aws_internet_gateway_attachment" "default" {
+  internet_gateway_id = aws_internet_gateway.default.id
+  vpc_id              = aws_vpc.default.id
+}
+
+# VPC SUBNET
 resource "aws_subnet" "default" {
   for_each = { for subnet in var.network_subnet_ranges : subnet => subnet }
 
@@ -18,14 +47,14 @@ resource "aws_subnet" "default" {
   }
 }
 
-resource "aws_security_group" "ingress_allow_tls_2222" {
+resource "aws_security_group" "default" {
   depends_on = [
     aws_vpc.default,
     aws_subnet.default
   ]
 
-  name        = "ingress_allow_tls_2222"
-  description = "Allow TLS inbound traffic"
+  name        = "default"
+  description = "default"
   vpc_id      = aws_vpc.default.id
 
   ingress {
@@ -33,7 +62,9 @@ resource "aws_security_group" "ingress_allow_tls_2222" {
     from_port   = 2222
     to_port     = 2222
     protocol    = "tcp"
-    cidr_blocks = [ var.network_ip_range ]
+    cidr_blocks = [
+      var.network_ip_range
+    ]
     ipv6_cidr_blocks = []
   }
 
@@ -46,24 +77,6 @@ resource "aws_security_group" "ingress_allow_tls_2222" {
   }
 
   tags = {
-    name = "ingress_allow_tls_2222"
-  }
-}
-
-resource "aws_security_group" "egress_allow_all" {
-  name        = "egress_allow_all"
-  description = "Allow all egress"
-  vpc_id      = aws_vpc.default.id
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = {
-    name = "egress_allow_all"
+    name = "default"
   }
 }
