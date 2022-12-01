@@ -21,13 +21,13 @@ resource "aws_instance" "node" {
   # cloud-init
   user_data = "#cloud-config\n${var.cloud_init_user_data}"
 
-  dynamic "network_interface" {
-    for_each = var.network_interface_config
-    content {
-      network_interface_id = network_interface.network_interface_id
-      device_index         = network_interface.device_index
-    }
-  }
+  # dynamic "network_interface" {
+  #   for_each = var.network_interface_config
+  #   content {
+  #     network_interface_id = network_interface.network_interface_id
+  #     device_index         = network_interface.device_index
+  #   }
+  # }
 
   tags = {
     nodetype = var.node_config.nodetype
