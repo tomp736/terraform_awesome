@@ -1,13 +1,11 @@
 variable "node_config" {
   description = "node config"
   type = object({
-    name        = string,
-    location    = string,
-    image       = string,
-    server_type = string,
-    nodetype    = string,
-    ssh_user    = string,
-    ssh_port    = string
+    image         = string,
+    instance_type = string,
+    nodetype      = string,
+    ssh_user      = string,
+    ssh_port      = string
   })
 }
 
