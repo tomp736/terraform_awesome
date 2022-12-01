@@ -1,10 +1,10 @@
-name: 'Test modules/hetzner/node'
+name: 'Test modules/aws/node'
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'modules/hetzner/**'
+      - 'modules/aws/**'
 
 permissions:
   contents: read
@@ -23,8 +23,6 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix: 
-        image: [ debian-11, fedora-36, rocky-9, ubuntu-22.04 ]
 
     steps:
     - 
@@ -53,7 +51,7 @@ jobs:
     - 
       name: Create vars file for test.
       run: |
-        cd tests/hetzner
+        cd tests/aws
         echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" > default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
     - 
@@ -71,13 +69,13 @@ jobs:
     - 
       name: Update config files for test.
       run: |
-        cd tests/hetzner
+        cd tests/aws
         sed -i 's|aws.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/node_config.json
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/aws
         verb: plan
         init: yes
         varsFile: default.tfvars
@@ -86,7 +84,7 @@ jobs:
       name: Terraform Apply
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/aws
         verb: apply
         init: yes
         varsFile: default.tfvars

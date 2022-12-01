@@ -8,6 +8,4 @@ terraform {
   }
 }
 
-provider "aws" {
-  token = var.hcloud_token
-}
+provider "aws" { }
