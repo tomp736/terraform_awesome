@@ -56,7 +56,7 @@ jobs:
         echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" > default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
     - 
-      name: Create aws config files.
+      name: Create aws credentials and config files.
       run: |
         mkdir -p ~/.aws
         echo "~/.aws/credentials"
