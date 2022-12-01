@@ -4,20 +4,24 @@ resource "aws_vpc" "default" {
   cidr_block = var.network_ip_range
 
   tags = {
-    name = var.network_name
+    Name = var.network_name
   }
 }
 
 # VPC DHCP OPTIONS
 resource "aws_default_vpc_dhcp_options" "default" {
   tags = {
-    name = var.network_name
+    Name = var.network_name
   }
 }
 
 resource "aws_vpc_dhcp_options_association" "default" {
   vpc_id          = aws_vpc.default.id
   dhcp_options_id = aws_default_vpc_dhcp_options.default.id
+
+  tags = {
+    Name = var.network_name
+  }
 }
 
 
@@ -30,7 +34,7 @@ resource "aws_subnet" "default" {
   availability_zone = var.network_zone
 
   tags = {
-    name = var.network_name
+    Name = var.network_name
   }
 }
 
@@ -39,13 +43,17 @@ resource "aws_internet_gateway" "default" {
   vpc_id = aws_vpc.default.id
 
   tags = {
-    name = var.network_name
+    Name = var.network_name
   }
 }
 
 resource "aws_internet_gateway_attachment" "default" {
   internet_gateway_id = aws_internet_gateway.default.id
   vpc_id              = aws_vpc.default.id
+
+  tags = {
+    Name = var.network_name
+  }
 }
 
 # VPC ROUTE TABLE
@@ -53,12 +61,12 @@ resource "aws_route_table" "default" {
   vpc_id = aws_vpc.default.id
 
   route {
-    cidr_block = var.network_subnet_ranges[0]
+    cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.default.id
   }
 
   tags = {
-    name = var.network_name
+    Name = var.network_name
   }
 }
 
@@ -92,6 +100,6 @@ resource "aws_security_group" "default" {
   }
 
   tags = {
-    name = "default"
+    Name = var.network_name
   }
 }

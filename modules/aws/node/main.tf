@@ -17,13 +17,17 @@ resource "aws_network_interface" "default" {
   subnet_id = var.subnet_id
 
   tags = {
-    name = var.node_config.name
+    Name = var.node_config.name
   }
 }
 
 resource "aws_eip" "default" {
-  vpc                       = true
-  network_interface         = aws_network_interface.default.id
+  vpc               = true
+  network_interface = aws_network_interface.default.id
+
+  tags = {
+    Name = var.node_config.name
+  }
 }
 
 resource "aws_instance" "node" {
@@ -40,7 +44,7 @@ resource "aws_instance" "node" {
   }
 
   tags = {
-    name     = var.node_config.name
+    Name     = var.node_config.name
     nodetype = var.node_config.nodetype
   }
 }
