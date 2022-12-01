@@ -5,9 +5,9 @@ variable "network_name" {
 }
 
 variable "network_zone" {
-  description = "(Optional) - Name of network zone, e.g. 'eu-central'."
+  description = "(Optional) - Name of network zone, e.g. 'eu-north-1a'."
   type        = string
-  default     = "eu-central"
+  default     = "eu-north-1a"
 }
 
 variable "network_ip_range" {
