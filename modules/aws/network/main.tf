@@ -21,7 +21,7 @@ resource "aws_subnet" "subnet" {
 resource "aws_security_group" "ingress_allow_tls_2222" {
   depends_on = [
     aws_vpc.network,
-    aws_subnet
+    aws_subnet.subnet
   ]
 
   name        = "ingress_allow_tls_2222"
