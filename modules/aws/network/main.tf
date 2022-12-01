@@ -34,11 +34,9 @@ resource "aws_security_group" "ingress_allow_tls_2222" {
     to_port     = 2222
     protocol    = "tcp"
     cidr_blocks = [
-      aws_vpc.network.cidr_block
+      var.network_ip_range
     ]
-    ipv6_cidr_blocks = [
-      aws_vpc.network.ipv6_cidr_block
-    ]
+    ipv6_cidr_blocks = []
   }
 
   egress {
