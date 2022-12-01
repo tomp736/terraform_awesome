@@ -13,7 +13,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "network_interface" "net0" {
+resource "aws_network_interface" "net0" {
   subnet_id = var.subnet_id
 
   tags = {
