@@ -2,14 +2,14 @@
 
 locals {
   config   = jsondecode(file("files/config.json")).networks[0].hetzner.name
-  networks = config.networks
-  nodes    = config.nodes
+  networks = local.config.networks
+  nodes    = local.config.nodes
 }
 
 module "cloud_init" {
   source = "../../modules/cloud-init"
   general = {
-    hostname                   = nodes[0].hetzner.name
+    hostname                   = local.nodes[0].hetzner.name
     package_reboot_if_required = true
     package_update             = true
     package_upgrade            = true
@@ -32,11 +32,11 @@ module "cloud_init" {
 
 module "network" {
   source       = "../../modules/hetzner/network"
-  network_name = networks[0].hetzner.name
+  network_name = local.networks[0].hetzner.name
 }
 
 module "node" {
   source               = "../../modules/hetzner/node"
-  node_config          = nodes[0].hetzner
+  node_config          = local.nodes[0].hetzner
   cloud_init_user_data = module.cloud_init.user_data
 }
