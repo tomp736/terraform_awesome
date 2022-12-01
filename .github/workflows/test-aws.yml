@@ -1,12 +1,12 @@
-name: 'Test modules/hetzner/node'
+name: 'Test modules/aws/node'
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/test-hetzner.yml'
-      - 'modules/hetzner/**'
-      - 'tests/hetzner/**'
+      - '.github/workflows/test-aws.yml'
+      - 'modules/aws/**'
+      - 'tests/aws/**'
 
 permissions:
   contents: read
@@ -24,8 +24,6 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix: 
-        image: [ debian-11, fedora-36, rocky-9, ubuntu-22.04 ]
 
     steps:
     - 
@@ -54,20 +52,34 @@ jobs:
     - 
       name: Create vars file for test.
       run: |
-        cd tests/hetzner
-        echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> default.tfvars
+        cd tests/aws
+        # echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" > default.tfvars
+        echo "test_id = \"${{ env.BRANCH_NAME }}\"" > default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
+    - 
+      name: Create aws credentials and config files.
+      run: |
+        cd tests/aws
+        mkdir -p .aws
+        echo ".aws/credentials"
+        echo "[default]" > .aws/credentials
+        echo "aws_access_key_id = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" >> .aws/credentials
+        echo "aws_secret_access_key = \"${{ secrets.AWS_SECRET_ACCESS_KEY }}\"" >> .aws/credentials
+
+        echo ".aws/config"
+        echo "[default]" > .aws/config
+        echo "region = \"eu-north-1\"" >> .aws/config
     - 
       name: Update config files for test.
       run: |
-        cd tests/hetzner
-        sed -i 's|hetzner.name|${{ github.sha }}-${{ matrix.image }}|' files/config.json
-        sed -i 's|hetzner.image|${{ matrix.image }}|' files/config.json
+        cd tests/aws
+        # sed -i 's|aws.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/config.json
+        sed -i 's|aws.name|${{ env.BRANCH_NAME }}|' files/config.json
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/aws
         verb: plan
         init: yes
         varsFile: default.tfvars
@@ -76,7 +88,7 @@ jobs:
       name: Terraform Apply
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/aws
         verb: apply
         init: yes
         varsFile: default.tfvars
@@ -94,7 +106,7 @@ jobs:
       name: Terraform Destroy
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/aws
         verb: destroy
         init: yes
         varsFile: default.tfvars
@@ -106,7 +118,7 @@ jobs:
       name: Terraform Destroy Retry
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/aws
         verb: destroy
         init: yes
         varsFile: default.tfvars
@@ -118,7 +130,7 @@ jobs:
       name: Terraform Destroy Retry
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/aws
         verb: destroy
         init: yes
         varsFile: default.tfvars

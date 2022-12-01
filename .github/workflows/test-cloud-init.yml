@@ -4,7 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/workflows/test-cloud-init.yml'
       - 'modules/cloud-init/**'
+      - 'tests/cloud-init/**'
 
 permissions:
   contents: read
