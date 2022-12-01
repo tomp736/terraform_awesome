@@ -48,7 +48,7 @@ resource "aws_security_group" "ingress_allow_tls_2222" {
 
   name        = "ingress_allow_tls_2222"
   description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.network.id
+  vpc_id      = aws_vpc.default.id
 
   ingress {
     description = "TLS from VPC"
@@ -77,7 +77,7 @@ resource "aws_security_group" "ingress_allow_tls_2222" {
 resource "aws_security_group" "egress_allow_all" {
   name        = "egress_allow_all"
   description = "Allow all egress"
-  vpc_id      = aws_vpc.network.id
+  vpc_id      = aws_vpc.default.id
 
   egress {
     from_port        = 0
