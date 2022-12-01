@@ -1,10 +1,5 @@
 # ./main.tf
 
-module "network" {
-  source       = "../../modules/hetzner/network"
-  network_name = var.test_id
-}
-
 module "cloud_init" {
   source = "../../modules/cloud-init"
   general = {
@@ -30,7 +25,7 @@ module "cloud_init" {
 }
 
 module "node" {
-  source               = "../../modules/hetzner/node"
-  node_config          = jsondecode(file("files/node_config.json")).hetzner
+  source               = "../../modules/aws/node"
+  node_config          = jsondecode(file("files/node_config.json")).aws
   cloud_init_user_data = module.cloud_init.user_data
 }

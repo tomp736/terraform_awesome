@@ -13,7 +13,6 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 

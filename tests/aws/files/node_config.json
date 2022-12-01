@@ -1,0 +1,9 @@
+{
+    "aws": {
+        "image": "aws.image",
+        "instance_type": "t3.micro",
+        "nodetype": "test",
+        "ssh_user": "sysadmin",
+        "ssh_port": "2222"
+    }
+}

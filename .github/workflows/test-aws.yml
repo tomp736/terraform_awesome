@@ -1,10 +1,10 @@
-name: 'Test modules/aws/node'
+name: 'Test modules/hetzner/node'
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'modules/aws/**'
+      - 'modules/hetzner/**'
 
 permissions:
   contents: read
@@ -13,6 +13,7 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
+    environment: production
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
@@ -53,15 +54,25 @@ jobs:
       name: Create vars file for test.
       run: |
         cd tests/hetzner
-        echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> default.tfvars
-        echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" >> default.tfvars
+        echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" > default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
+    - 
+      name: Create aws config files.
+      run: |
+        mkdir -p ~/.aws
+        echo "~/.aws/credentials"
+        echo "[default]" > ~/.aws/credentials
+        echo "aws_access_key_id = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" >> ~/.aws/credentials
+        echo "aws_secret_access_key = \"${{ secrets.AWS_SECRET_ACCESS_KEY }}\"" >> ~/.aws/credentials
+
+        echo "~/.aws/config"
+        echo "[default]" > ~/.aws/config
+        echo "region = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" >> ~/.aws/config
     - 
       name: Update config files for test.
       run: |
         cd tests/hetzner
-        sed -i 's|hetzner.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/node_config.json
-        sed -i 's|hetzner.image|${{ matrix.image }}|' files/node_config.json
+        sed -i 's|aws.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/node_config.json
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
