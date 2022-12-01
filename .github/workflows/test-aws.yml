@@ -101,7 +101,7 @@ jobs:
       name: Terraform Destroy
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/aws
         verb: destroy
         init: yes
         varsFile: default.tfvars
