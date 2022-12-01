@@ -53,7 +53,8 @@ jobs:
       name: Create vars file for test.
       run: |
         cd tests/aws
-        echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" > default.tfvars
+        # echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" > default.tfvars
+        echo "test_id = \"${{ env.BRANCH_NAME }}\"" > default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
     - 
       name: Create aws credentials and config files.
@@ -72,7 +73,8 @@ jobs:
       name: Update config files for test.
       run: |
         cd tests/aws
-        sed -i 's|aws.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/node_config.json
+        # sed -i 's|aws.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/config.json
+        sed -i 's|aws.name|${{ env.BRANCH_NAME }}|' files/config.json
     - 
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
