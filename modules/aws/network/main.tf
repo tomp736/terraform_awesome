@@ -12,12 +12,12 @@ resource "aws_default_vpc_dhcp_options" "default" {
   }
 }
 resource "aws_vpc_dhcp_options_association" "default" {
-  vpc_id          = aws_vpc.network.id
+  vpc_id          = aws_vpc.default.id
   dhcp_options_id = aws_vpc_dhcp_options.default.id
 }
 
 resource "aws_internet_gateway" "default" {
-  vpc_id = aws_vpc.network.id
+  vpc_id = aws_vpc.default.id
 
   tags = {
     name = var.network_name
