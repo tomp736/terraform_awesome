@@ -1,3 +1,11 @@
+resource "aws_internet_gateway" "gateway" {
+  vpc_id = aws_vpc.network.id
+
+  tags = {
+    Name = var.network_name
+  }
+}
+
 resource "aws_vpc" "network" {
   cidr_block = var.network_ip_range
 
