@@ -66,7 +66,7 @@ jobs:
 
         echo "~/.aws/config"
         echo "[default]" > ~/.aws/config
-        echo "region = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" >> ~/.aws/config
+        echo "region = \"eu-north-1\"" >> ~/.aws/config
     - 
       name: Update config files for test.
       run: |
