@@ -12,7 +12,7 @@ variable "node_config" {
 
 variable "subnet_id" {
   description = "subnet id"
-  type        = number
+  type        = string
 }
 
 variable "cloud_init_user_data" {
