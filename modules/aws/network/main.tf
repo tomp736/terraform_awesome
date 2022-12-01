@@ -9,7 +9,7 @@ resource "aws_vpc" "network" {
 resource "aws_subnet" "subnet" {
   for_each = { for subnet in var.network_subnet_ranges : subnet => subnet }
 
-  network_id        = aws_vpc.network.id
+  vpc_id            = aws_vpc.network.id
   cidr_block        = each.value
   availability_zone = var.network_zone
 
