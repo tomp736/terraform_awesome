@@ -29,11 +29,11 @@ resource "aws_security_group" "ingress_allow_tls_2222" {
   vpc_id      = aws_vpc.network.id
 
   ingress {
-    description      = "TLS from VPC"
-    from_port        = 2222
-    to_port          = 2222
-    protocol         = "tcp"
-    cidr_blocks      = [
+    description = "TLS from VPC"
+    from_port   = 2222
+    to_port     = 2222
+    protocol    = "tcp"
+    cidr_blocks = [
       aws_vpc.network.cidr_block
     ]
     ipv6_cidr_blocks = [
