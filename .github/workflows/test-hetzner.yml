@@ -1,10 +1,11 @@
-name: 'Test modules/aws/node'
+name: 'Test modules/hetzner/node'
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'modules/aws/**'
+      - '.github/workflows/test-hetzner.yml'
+      - 'modules/hetzner/**'
 
 permissions:
   contents: read
