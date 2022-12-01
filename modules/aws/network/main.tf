@@ -20,6 +20,20 @@ resource "aws_vpc_dhcp_options_association" "default" {
   dhcp_options_id = aws_default_vpc_dhcp_options.default.id
 }
 
+
+# VPC SUBNET
+resource "aws_subnet" "default" {
+  for_each = { for subnet in var.network_subnet_ranges : subnet => subnet }
+
+  vpc_id            = aws_vpc.default.id
+  cidr_block        = each.value
+  availability_zone = var.network_zone
+
+  tags = {
+    name = var.network_name
+  }
+}
+
 # VPC GATEWAY
 resource "aws_internet_gateway" "default" {
   vpc_id = aws_vpc.default.id
@@ -34,13 +48,14 @@ resource "aws_internet_gateway_attachment" "default" {
   vpc_id              = aws_vpc.default.id
 }
 
-# VPC SUBNET
-resource "aws_subnet" "default" {
-  for_each = { for subnet in var.network_subnet_ranges : subnet => subnet }
+# VPC ROUTE TABLE
+resource "aws_route_table" "default" {
+  vpc_id = aws_vpc.default.id
 
-  vpc_id            = aws_vpc.default.id
-  cidr_block        = each.value
-  availability_zone = var.network_zone
+  route {
+    cidr_block = var.network_subnet_ranges[0]
+    gateway_id = aws_internet_gateway.default.id
+  }
 
   tags = {
     name = var.network_name
