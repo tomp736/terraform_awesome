@@ -15,6 +15,7 @@
         {
             "id": "aws.name",
             "aws": {
+                "name": "aws.name",
                 "image": "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*",
                 "instance_type": "t3.micro",
                 "nodetype": "test",

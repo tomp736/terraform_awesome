@@ -1,6 +1,7 @@
 variable "node_config" {
   description = "node config"
   type = object({
+    name          = string,
     image         = string,
     instance_type = string,
     nodetype      = string,
