@@ -36,6 +36,10 @@ module "network" {
 }
 
 module "node" {
+  depends_on = [
+    module.network
+  ]
+
   source               = "../../modules/aws/node"
   node_config          = local.nodes[0].aws
   subnet_id            = values(module.network.aws_subnets)[0].id
