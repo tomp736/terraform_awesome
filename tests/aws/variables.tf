@@ -1,5 +1,5 @@
-variable "hcloud_token" {
-  description = "(Required) - The Hetzner Cloud API Token, can also be specified with the HCLOUD_TOKEN environment variable."
+variable "test_id" {
+  description = "(Required) - TestID for testing."
   type        = string
   sensitive   = true
 }
