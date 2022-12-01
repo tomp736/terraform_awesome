@@ -62,33 +62,27 @@ resource "aws_route_table" "default" {
   }
 }
 
-resource "aws_security_group" "default" {
-  depends_on = [
-    aws_vpc.default,
-    aws_subnet.default
-  ]
+# VPC DEFAULT SECURITY GROUP
+resource "aws_default_security_group" "default" {
+  vpc_id = aws_vpc.default.id
+}
 
-  name        = "default"
-  description = "default"
-  vpc_id      = aws_vpc.default.id
+resource "aws_security_group_rule" "ingress" {
+  type              = "ingress"
+  from_port         = 2222
+  to_port           = 2222
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = aws_default_security_group.default.id
+}
 
-  ingress {
-    from_port        = 2222
-    to_port          = 2222
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = {
-    Name = var.network_name
-  }
+resource "aws_security_group_rule" "egress" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = aws_default_security_group.default.id
 }
