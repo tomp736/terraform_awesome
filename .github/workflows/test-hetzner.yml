@@ -90,7 +90,33 @@ jobs:
         sleep 1m
     - 
       if: always()
+      id: destroy
+      continue-on-error: true
       name: Terraform Destroy
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/hetzner
+        verb: destroy
+        init: yes
+        varsFile: default.tfvars
+        sshKey: ${{ env.KEYFILE }}
+    - 
+      if: always() && steps.destroy.outcome == 'failure'
+      id: destroy2
+      continue-on-error: true
+      name: Terraform Destroy Retry
+      uses: labrats-work/action-terraform@main
+      with:
+        chdir: tests/hetzner
+        verb: destroy
+        init: yes
+        varsFile: default.tfvars
+        sshKey: ${{ env.KEYFILE }}
+    - 
+      if: always() && steps.destroy2.outcome == 'failure'
+      id: destroy3
+      continue-on-error: true
+      name: Terraform Destroy Retry
       uses: labrats-work/action-terraform@main
       with:
         chdir: tests/hetzner

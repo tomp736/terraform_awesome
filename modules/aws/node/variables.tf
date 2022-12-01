@@ -9,6 +9,15 @@ variable "node_config" {
   })
 }
 
+variable "network_interface_config" {
+  description = "network interface config"
+  type = list(object({
+    device_index         = number,
+    network_interface_id = string,
+  }))
+  default = []
+}
+
 variable "cloud_init_user_data" {
   description = "cloud init user data"
   type        = string
