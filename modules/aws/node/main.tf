@@ -1,3 +1,11 @@
+resource "aws_network_interface" "foo" {
+  subnet_id   = aws_subnet.my_subnet.id
+
+  tags = {
+    Name = "primary_network_interface"
+  }
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
   filter {

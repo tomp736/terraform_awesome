@@ -19,6 +19,11 @@ resource "aws_subnet" "subnet" {
 }
 
 resource "aws_security_group" "ingress_allow_tls_2222" {
+  depends_on = [
+    aws_vpc.network,
+    aws_subnet
+  ]
+
   name        = "ingress_allow_tls_2222"
   description = "Allow TLS inbound traffic"
   vpc_id      = aws_vpc.network.id
@@ -28,8 +33,12 @@ resource "aws_security_group" "ingress_allow_tls_2222" {
     from_port        = 2222
     to_port          = 2222
     protocol         = "tcp"
-    cidr_blocks      = [aws_vpc.network.cidr_block]
-    ipv6_cidr_blocks = [aws_vpc.network.ipv6_cidr_block]
+    cidr_blocks      = [
+      aws_vpc.network.cidr_block
+    ]
+    ipv6_cidr_blocks = [
+      aws_vpc.network.ipv6_cidr_block
+    ]
   }
 
   egress {
