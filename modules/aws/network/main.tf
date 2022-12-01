@@ -73,14 +73,11 @@ resource "aws_security_group" "default" {
   vpc_id      = aws_vpc.default.id
 
   ingress {
-    description = "TLS from VPC"
-    from_port   = 2222
-    to_port     = 2222
-    protocol    = "tcp"
-    cidr_blocks = [
-      var.network_ip_range
-    ]
-    ipv6_cidr_blocks = []
+    from_port        = 2222
+    to_port          = 2222
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
