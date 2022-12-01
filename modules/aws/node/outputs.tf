@@ -1,15 +1,10 @@
 output "ipv4_address" {
-  value     = hcloud_server.node.ipv4_address
+  value     = aws_instance.node.public_ip
   sensitive = true
 }
 
 output "id" {
-  value     = hcloud_server.node.id
-  sensitive = true
-}
-
-output "name" {
-  value     = var.node_config.name
+  value     = aws_instance.node.id
   sensitive = true
 }
 
