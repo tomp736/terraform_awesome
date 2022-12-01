@@ -6,11 +6,6 @@ locals {
   nodes    = config.nodes
 }
 
-module "network" {
-  source       = "../../modules/hetzner/network"
-  network_name = networks[0].hetzner.name
-}
-
 module "cloud_init" {
   source = "../../modules/cloud-init"
   general = {
@@ -33,6 +28,11 @@ module "cloud_init" {
     "mkdir -p /etc/ssh/sshd_config.d",
     "echo \"Port 2222\" > /etc/ssh/sshd_config.d/90-defaults.conf"
   ]
+}
+
+module "network" {
+  source       = "../../modules/hetzner/network"
+  network_name = networks[0].hetzner.name
 }
 
 module "node" {
