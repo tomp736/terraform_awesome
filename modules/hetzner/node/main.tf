@@ -12,8 +12,11 @@ resource "hcloud_server" "node" {
     nodetype = var.node_config.nodetype
   }
 
-  network {
-    network_id = var.network_id
+  dynamic "network" {
+    for_each = var.network_ids
+    content {
+      network_id = network.value.id
+    }
   }
 
   public_net {
