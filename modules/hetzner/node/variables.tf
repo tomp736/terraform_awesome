@@ -5,8 +5,8 @@ variable "node_config" {
     location     = string,
     image        = string,
     server_type  = string,
-    ipv4_enabled = bool,
-    ipv6_enabled = bool,
+    ipv4_enabled = optional(bool, true),
+    ipv6_enabled = optional(bool, true),
     nodetype     = string,
     ssh_user     = string,
     ssh_port     = string
