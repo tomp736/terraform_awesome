@@ -14,7 +14,7 @@ variable "node_config" {
 }
 
 variable "network_ids" {
-  description = "node config"
+  description = "hetzner network ids"
   type        = list(number)
 }
 
