@@ -17,32 +17,3 @@ resource "hcloud_server" "node" {
     ipv6_enabled = var.node_config.ipv6_enabled
   }
 }
-
-resource "null_resource" "cloud-init" {
-  depends_on = [
-    hcloud_server.node
-  ]
-
-  connection {
-    host    = hcloud_server.node.ipv4_address
-    agent   = true
-    user    = var.node_config.ssh_user
-    port    = var.node_config.ssh_port
-    type    = "ssh"
-    timeout = "5m"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sleep 60 && cloud-init status --wait"
-    ]
-    on_failure = continue
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "cloud-init status --wait"
-    ]
-    on_failure = continue
-  }
-}
