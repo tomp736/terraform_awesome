@@ -15,7 +15,7 @@ resource "hcloud_server" "node" {
   dynamic "network" {
     for_each = var.network_ids
     content {
-      network_id = network.value.id
+      network_id = network.value
     }
   }
 
