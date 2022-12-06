@@ -11,6 +11,11 @@ resource "hcloud_server" "node" {
   labels = {
     nodetype = var.node_config.nodetype
   }
+
+  public_net {
+    ipv4_enabled = var.node_config.ipv4_enabled
+    ipv6_enabled = var.node_config.ipv6_enabled
+  }
 }
 
 resource "null_resource" "cloud-init" {
