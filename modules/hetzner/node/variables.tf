@@ -13,6 +13,11 @@ variable "node_config" {
   })
 }
 
+variable "network_id" {
+  description = "node config"
+  type        = number
+}
+
 variable "cloud_init_user_data" {
   description = "cloud init user data"
   type        = string
