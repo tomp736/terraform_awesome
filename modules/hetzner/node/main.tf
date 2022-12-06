@@ -5,8 +5,6 @@ resource "hcloud_server" "node" {
   image       = var.node_config.image
   server_type = var.node_config.server_type
 
-  start_after_create = true
-
   # cloud-init
   user_data = "#cloud-config\n${var.cloud_init_user_data}"
 
