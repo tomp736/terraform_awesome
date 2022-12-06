@@ -13,9 +13,9 @@ variable "node_config" {
   })
 }
 
-variable "network_id" {
+variable "network_ids" {
   description = "node config"
-  type        = number
+  type        = list(number)
 }
 
 variable "cloud_init_user_data" {
