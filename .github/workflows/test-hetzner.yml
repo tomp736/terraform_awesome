@@ -61,7 +61,8 @@ jobs:
       name: Update config files for test.
       run: |
         cd tests/hetzner
-        sed -i 's|hetzner.name|${{ github.sha }}-${{ matrix.image }}|' files/config.json
+        sed -i 's|hetzner.node|${{ github.sha }}-${{ matrix.image }}-node|' files/config.json
+        sed -i 's|hetzner.network|${{ github.sha }}-${{ matrix.image }}-net|' files/config.json
         sed -i 's|hetzner.image|${{ matrix.image }}|' files/config.json
     - 
       name: Terraform Plan
@@ -81,11 +82,6 @@ jobs:
         init: yes
         varsFile: default.tfvars
         planFile: tfplan
-    - 
-      name: Sleep
-      run: |
-        echo "Will destroy node in 1 minute."
-        sleep 1m
     - 
       if: always()
       id: destroy

@@ -1,29 +1,28 @@
 {
     "networks": [
         {
-            "id": "hetzner.name",
-            "hetzner": {
-                "name": "hetzner.name",
-                "ip_range": "10.98.0.0/16",
-                "subnet_ranges": [
-                    "10.98.0.0/24"
-                ]
-            }
+            "id": "hetzner.network",
+            "name": "hetzner.network",
+            "ip_range": "10.98.0.0/16",
+            "subnet_ranges": [
+                "10.98.0.0/24"
+            ]
         }
     ],
     "nodes": [
         {
-            "id": "hetzner.name",
-            "hetzner": {
-                "name": "hetzner.name",
-                "location": "nbg1",
-                "image": "hetzner.image",
-                "server_type": "cx11",
-                "nodetype": "test",
-                "network_zone": "eu-central",
-                "ssh_user": "sysadmin",
-                "ssh_port": "2222"
-            }
+            "id": "hetzner.node",
+            "networks":[
+                "hetzner.network"
+            ],
+            "name": "hetzner.node",
+            "location": "nbg1",
+            "image": "hetzner.image",
+            "server_type": "cx11",
+            "nodetype": "test",
+            "network_zone": "eu-central",
+            "ssh_user": "sysadmin",
+            "ssh_port": "2222"
         }
     ]
 }
