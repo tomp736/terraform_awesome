@@ -81,7 +81,6 @@ jobs:
         init: yes
         varsFile: default.tfvars
         planFile: tfplan
-        sshKey: ${{ env.KEYFILE }}
     - 
       name: Sleep
       run: |
@@ -98,7 +97,6 @@ jobs:
         verb: destroy
         init: yes
         varsFile: default.tfvars
-        sshKey: ${{ env.KEYFILE }}
     - 
       if: always() && steps.destroy.outcome == 'failure'
       id: destroy2
@@ -110,7 +108,6 @@ jobs:
         verb: destroy
         init: yes
         varsFile: default.tfvars
-        sshKey: ${{ env.KEYFILE }}
     - 
       if: always() && steps.destroy2.outcome == 'failure'
       id: destroy3
@@ -122,4 +119,3 @@ jobs:
         verb: destroy
         init: yes
         varsFile: default.tfvars
-        sshKey: ${{ env.KEYFILE }}

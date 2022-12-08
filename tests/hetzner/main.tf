@@ -38,5 +38,11 @@ module "network" {
 module "node" {
   source               = "../../modules/hetzner/node"
   node_config          = local.nodes[0].hetzner
+
+  depends_on = [
+    module.network
+  ]
+
+  network_ids          = [module.network.hetzner_network.id]
   cloud_init_user_data = module.cloud_init.user_data
 }

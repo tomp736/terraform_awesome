@@ -8,6 +8,11 @@ output "id" {
   sensitive = true
 }
 
+output "name" {
+  value     = var.node_config.name
+  sensitive = true
+}
+
 output "nodetype" {
   value = var.node_config.nodetype
 }
