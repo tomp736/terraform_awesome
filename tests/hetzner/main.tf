@@ -42,7 +42,7 @@ module "node" {
     module.network
   ]
 
-  node_config = local.nodes[0].hetzner
+  node_config = local.nodes[0]
   networks = [
     {
       name = local.networks[0].id
