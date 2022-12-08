@@ -13,9 +13,12 @@ variable "node_config" {
   })
 }
 
-variable "network_ids" {
-  description = "hetzner network ids"
-  type        = list(number)
+variable "networks" {
+  description = "networks to connect to"
+  type = list(object({
+    name = string
+    id   = string
+  }))
 }
 
 variable "cloud_init_user_data" {
