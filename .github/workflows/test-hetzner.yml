@@ -61,8 +61,8 @@ jobs:
       name: Update config files for test.
       run: |
         cd tests/hetzner
-        sed -i 's|hetzner.name|${{ github.sha }}-${{ matrix.image }}|' files/config.json
-        sed -i 's|hetzner.network|${{ github.sha }}-${{ matrix.image }}|' files/config.json
+        sed -i 's|hetzner.node|${{ github.sha }}-node|' files/config.json
+        sed -i 's|hetzner.network|${{ github.sha }}-net|' files/config.json
         sed -i 's|hetzner.image|${{ matrix.image }}|' files/config.json
     - 
       name: Terraform Plan
