@@ -42,7 +42,12 @@ module "node" {
     module.network
   ]
 
-  node_config          = local.nodes[0].hetzner
-  network_ids          = [module.network.hetzner_network.id]
+  node_config = local.nodes[0].hetzner
+  networks = [
+    {
+      name = local.networks[0].hetzner.id
+      id   = module.networks[local.networks[0].hetzner.id].hetzner_network.id
+    }
+  ]
   cloud_init_user_data = module.cloud_init.user_data
 }
