@@ -18,5 +18,10 @@ output "ipv4_address" {
 }
 
 output "networks" {
-  value = { for network in hcloud_server.node.network : network.network_id => network.ip }
+  value = {
+    for network in hcloud_server.node.network : network.network_id => {
+      ip          = network.ip
+      mac_address = network.mac_address
+    }
+  }
 }

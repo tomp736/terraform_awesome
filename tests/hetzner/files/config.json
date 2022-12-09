@@ -12,8 +12,11 @@
     "nodes": [
         {
             "id": "hetzner.node",
-            "networks":[
-                "hetzner.network"
+            "networks": [
+                { 
+                    "id" : "hetzner.network",
+                    "ip" : ""
+                }
             ],
             "name": "hetzner.node",
             "location": "nbg1",
