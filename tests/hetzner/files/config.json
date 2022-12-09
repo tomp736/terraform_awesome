@@ -16,7 +16,7 @@
                 { 
                     "id" : "hetzner.network",
                     "mac" : "6a:78:25:b6:b5:6f",
-                    "ip" : "10.98.0.1"
+                    "ip" : ""
                 }
             ],
             "name": "hetzner.node",
