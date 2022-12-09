@@ -47,7 +47,6 @@ module "node" {
     for network in local.nodes[0].networks : {
       name        = network.id
       network_id  = module.network.hetzner_network.id
-      mac_address = network.mac
       ip          = network.ip
     }
   ]
