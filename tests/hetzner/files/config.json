@@ -12,8 +12,12 @@
     "nodes": [
         {
             "id": "hetzner.node",
-            "networks":[
-                "hetzner.network"
+            "networks": [
+                { 
+                    "id" : "hetzner.network",
+                    "mac" : "6a:78:25:b6:b5:6f",
+                    "ip" : "10.98.0.1"
+                }
             ],
             "name": "hetzner.node",
             "location": "nbg1",

@@ -16,8 +16,10 @@ variable "node_config" {
 variable "networks" {
   description = "networks to connect to"
   type = list(object({
-    name = string
-    id   = string
+    name        = string
+    network_id  = string
+    mac_address = string
+    ip          = string
   }))
 }
 
