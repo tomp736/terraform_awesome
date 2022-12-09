@@ -18,7 +18,6 @@ variable "networks" {
   type = list(object({
     name        = string
     network_id  = string
-    mac_address = string
     ip          = string
   }))
 }
