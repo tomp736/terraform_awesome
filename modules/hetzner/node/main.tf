@@ -16,7 +16,6 @@ resource "hcloud_server" "node" {
     for_each = var.networks
     content {
       network_id  = network.value.network_id
-      mac_address = network.value.mac_address
       ip          = network.value.ip
     }
   }
