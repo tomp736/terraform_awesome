@@ -13,14 +13,14 @@ module "cloud_init_configs" {
   }
   users_data = [
     {
-      name                = "${sshd_config.ssh_user}"
+      name                = "${var.sshd_config.ssh_user}"
       shell               = "/bin/bash"
       ssh-authorized-keys = var.public_keys
     }
   ]
   runcmd = [
     "mkdir -p /etc/ssh/sshd_config.d",
-    "echo \"Port ${sshd_config.ssh_port}\" > /etc/ssh/sshd_config.d/90-defaults.conf"
+    "echo \"Port ${var.sshd_config.ssh_port}\" > /etc/ssh/sshd_config.d/90-defaults.conf"
   ]
 }
 
@@ -48,8 +48,8 @@ resource "null_resource" "cloud_init" {
     host         = var.bastion_host == null ? module.nodes[each.value.id].ipv4_address : module.nodes[each.value.id].networks[var.networks_map["bnet"].hetzner_id].ip
     bastion_host = var.bastion_host
     agent        = true
-    user         = sshd_config.ssh_user
-    port         = sshd_config.ssh_port
+    user         = var.sshd_config.ssh_user
+    port         = var.sshd_config.ssh_port
     type         = "ssh"
     timeout      = "5m"
   }
@@ -78,8 +78,8 @@ resource "null_resource" "udev_network_interfaces" {
     host         = var.bastion_host == null ? module.nodes[each.value.id].ipv4_address : module.nodes[each.value.id].networks[var.networks_map["bnet"].hetzner_id].ip
     bastion_host = var.bastion_host
     agent        = true
-    user         = sshd_config.ssh_user
-    port         = sshd_config.ssh_port
+    user         = var.sshd_config.ssh_user
+    port         = var.sshd_config.ssh_port
     type         = "ssh"
     timeout      = "5m"
   }
