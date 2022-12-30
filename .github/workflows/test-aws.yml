@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  terraform:
+  aws:
     uses: ./.github/workflows/deploy-test.yml
     secrets: inherit
 
