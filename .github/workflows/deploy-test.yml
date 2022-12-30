@@ -54,6 +54,18 @@ jobs:
         echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
     - 
+      name: Create aws credentials and config files.
+      run: |
+        cd tests/aws
+        mkdir -p .aws
+        echo ".aws/credentials"
+        echo "[default]" > .aws/credentials
+        echo "aws_access_key_id = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" >> .aws/credentials
+        echo "aws_secret_access_key = \"${{ secrets.AWS_SECRET_ACCESS_KEY }}\"" >> .aws/credentials
+        echo ".aws/config"
+        echo "[default]" > .aws/config
+        echo "region = \"eu-north-1\"" >> .aws/config
+    - 
       name: Update config files for test.
       run: |
         cd ${{ inputs.TESTPATH }}
