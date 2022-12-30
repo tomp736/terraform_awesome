@@ -57,9 +57,9 @@ jobs:
       name: Update config files for test.
       run: |
         cd ${{ inputs.TESTPATH }}
-        sed -i 's|hetzner.node|${{ github.sha }}-${{ matrix.image }}-node|' files/config.json
-        sed -i 's|hetzner.network|${{ github.sha }}-${{ matrix.image }}-net|' files/config.json
-        sed -i 's|hetzner.image|${{ matrix.image }}|' files/config.json
+        sed -i 's|hetzner.node|${{ github.sha }}-${{ inputs.IMAGE }}-node|' files/config.json
+        sed -i 's|hetzner.network|${{ github.sha }}-${{ inputs.IMAGE }}-net|' files/config.json
+        sed -i 's|hetzner.image|${{ inputs.IMAGE }}|' files/config.json
     - 
       name: Terraform Init
       run: terraform -chdir=${{ inputs.TESTPATH }} init -backend-config=config.remote.tfbackend
