@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix: 
         image: [ debian-11, fedora-37, rocky-9, ubuntu-22.04 ]
-        testpath: [ hetzner/node, hetzner/node_group ]
+        testpath: [ tests/hetzner/node, tests/hetzner/node_group ]
         
     with:
       IMAGE: ${{ matrix.image }}
