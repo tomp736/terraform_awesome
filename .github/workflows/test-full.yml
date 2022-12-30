@@ -1,4 +1,4 @@
-name: 'Test all modules'
+name: 'Full Test and Tag'
 
 on:
   push:
@@ -37,6 +37,7 @@ jobs:
 
   update-version:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     needs: [ aws, hetzner ]
     steps:
       # Check out the repository
@@ -46,6 +47,7 @@ jobs:
       - id: current_version
         shell: bash
         run: |
+          echo $(git tag | sort -V | tail -1)
           echo "version=$(git tag | sort -V | tail -1)" >> $GITHUB_OUTPUT
       
       # Increment the patch version number by one
