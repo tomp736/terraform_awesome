@@ -7,9 +7,9 @@ locals {
 }
 
 module "cloud_init" {
-  source = "../../modules/cloud-init"
+  source = "../../../modules/cloud-init"
   general = {
-    hostname                   = local.nodes[0].aws.name
+    hostname                   = local.nodes[0].name
     package_reboot_if_required = true
     package_update             = true
     package_upgrade            = true
@@ -31,17 +31,24 @@ module "cloud_init" {
 }
 
 module "network" {
-  source       = "../../modules/aws/network"
-  network_name = local.networks[0].aws.name
+  source       = "../../../modules/hetzner/network"
+  network_name = local.networks[0].name
 }
 
 module "node" {
+  source = "../../../modules/hetzner/node"
+
   depends_on = [
     module.network
   ]
 
-  source               = "../../modules/aws/node"
-  node_config          = local.nodes[0].aws
-  subnet_id            = values(module.network.aws_subnets)[0].id
+  node_config = local.nodes[0]
+  networks = [
+    for network in local.nodes[0].networks : {
+      name       = network.id
+      network_id = module.network.hetzner_network.id
+      ip         = network.ip
+    }
+  ]
   cloud_init_user_data = module.cloud_init.user_data
 }
