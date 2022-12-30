@@ -2,7 +2,7 @@
 
 module "cloud_init_configs" {
   for_each = var.nodes
-  source   = "./../cloud-init"
+  source   = "../../cloud-init"
 
   general = {
     hostname                   = each.value.name
@@ -26,7 +26,7 @@ module "cloud_init_configs" {
 
 module "nodes" {
   for_each = var.nodes
-  source   = "./../node"
+  source   = "../../node"
 
   node_config = each.value
   networks = [
