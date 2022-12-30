@@ -35,6 +35,7 @@ jobs:
       IMAGE: ${{ matrix.image }}
       TESTPATH: ${{ matrix.testpath }}
 
-  update-version:
-    uses: ./.github/workflows/deploy-test.yml
+  push-tag:
+    needs: [ aws, hetzner]
+    uses: ./.github/workflows/push-tag.yml
     secrets: inherit
