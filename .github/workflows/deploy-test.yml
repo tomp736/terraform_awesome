@@ -74,6 +74,11 @@ jobs:
       name: Update config files for test.
       run: |
         cd ${{ inputs.TESTPATH }}
+        # AWS
+        sed -i 's|aws.node|${{ steps.configvars.outputs.test_tag }}-node|' files/config.json
+        sed -i 's|aws.network|${{ steps.configvars.outputs.test_tag }}-net|' files/config.json  
+        sed -i 's|aws.image|${{ inputs.IMAGE }}|' files/config.json      
+        # HETZNER
         sed -i 's|hetzner.node|${{ steps.configvars.outputs.test_tag }}-node|' files/config.json
         sed -i 's|hetzner.network|${{ steps.configvars.outputs.test_tag }}-net|' files/config.json
         sed -i 's|hetzner.image|${{ inputs.IMAGE }}|' files/config.json

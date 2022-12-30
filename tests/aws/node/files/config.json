@@ -1,9 +1,9 @@
 {
     "networks": [
         {
-            "id": "aws.name",
+            "id": "aws.network",
             "aws": {
-                "name": "aws.name",
+                "name": "aws.network",
                 "ip_range": "10.98.0.0/16",
                 "subnet_ranges": [
                     "10.98.0.0/24"
@@ -13,10 +13,10 @@
     ],
     "nodes": [
         {
-            "id": "aws.name",
+            "id": "aws.node",
             "aws": {
-                "name": "aws.name",
-                "image": "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*",
+                "name": "aws.node",
+                "image": "aws.image",
                 "instance_type": "t3.micro",
                 "nodetype": "test",
                 "ssh_user": "sysadmin",
