@@ -69,14 +69,13 @@ jobs:
       name: Set outputs
       id: configvars
       run: |
-        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
         echo "::set-output name=test_tag::$(echo "${{ inputs.IMAGE }}-${{ inputs.TESTPATH }}" | sed 's|/|-|g')"
     - 
       name: Update config files for test.
       run: |
         cd ${{ inputs.TESTPATH }}
-        sed -i 's|hetzner.node|${{ steps.configvars.outputs.sha_short }}-${{ steps.configvars.outputs.test_tag }}-node|' files/config.json
-        sed -i 's|hetzner.network|${{ steps.configvars.outputs.sha_short }}-${{ steps.configvars.outputs.test_tag }}-net|' files/config.json
+        sed -i 's|hetzner.node|${{ steps.configvars.outputs.test_tag }}-node|' files/config.json
+        sed -i 's|hetzner.network|${{ steps.configvars.outputs.test_tag }}-net|' files/config.json
         sed -i 's|hetzner.image|${{ inputs.IMAGE }}|' files/config.json
     - 
       name: Terraform Init
