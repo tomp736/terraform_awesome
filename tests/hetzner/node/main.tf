@@ -7,7 +7,7 @@ locals {
 }
 
 module "cloud_init" {
-  source = "../../modules/cloud-init"
+  source = "../../../modules/cloud-init"
   general = {
     hostname                   = local.nodes[0].name
     package_reboot_if_required = true
@@ -31,12 +31,12 @@ module "cloud_init" {
 }
 
 module "network" {
-  source       = "../../modules/hetzner/network"
+  source       = "../../../modules/hetzner/network"
   network_name = local.networks[0].name
 }
 
 module "node" {
-  source = "../../modules/hetzner/node"
+  source = "../../../modules/hetzner/node"
 
   depends_on = [
     module.network

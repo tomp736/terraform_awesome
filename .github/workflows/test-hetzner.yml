@@ -1,4 +1,4 @@
-name: 'Test modules/hetzner/node'
+name: 'Test modules/hetzner'
 
 on:
   workflow_dispatch:
@@ -26,6 +26,7 @@ jobs:
       fail-fast: false
       matrix: 
         image: [ debian-11, fedora-36, rocky-9, ubuntu-22.04 ]
+        test: [ hetzner/node, hetzner/node_group ]
 
     steps:
     - 
@@ -60,7 +61,7 @@ jobs:
     - 
       name: Update config files for test.
       run: |
-        cd tests/hetzner
+        cd tests/${{ matrix.test }}
         sed -i 's|hetzner.node|${{ github.sha }}-${{ matrix.image }}-node|' files/config.json
         sed -i 's|hetzner.network|${{ github.sha }}-${{ matrix.image }}-net|' files/config.json
         sed -i 's|hetzner.image|${{ matrix.image }}|' files/config.json
@@ -68,7 +69,7 @@ jobs:
       name: Terraform Plan
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/${{ matrix.test }}
         verb: plan
         init: yes
         varsFile: default.tfvars
@@ -77,7 +78,7 @@ jobs:
       name: Terraform Apply
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/${{ matrix.test }}
         verb: apply
         init: yes
         varsFile: default.tfvars
@@ -89,7 +90,7 @@ jobs:
       name: Terraform Destroy
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/${{ matrix.test }}
         verb: destroy
         init: yes
         varsFile: default.tfvars
@@ -100,7 +101,7 @@ jobs:
       name: Terraform Destroy Retry
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/${{ matrix.test }}
         verb: destroy
         init: yes
         varsFile: default.tfvars
@@ -111,7 +112,7 @@ jobs:
       name: Terraform Destroy Retry
       uses: labrats-work/action-terraform@main
       with:
-        chdir: tests/hetzner
+        chdir: tests/${{ matrix.test }}
         verb: destroy
         init: yes
         varsFile: default.tfvars
