@@ -7,7 +7,7 @@ locals {
 }
 
 module "cloud_init" {
-  source = "../../modules/cloud-init"
+  source = "../../../modules/cloud-init"
   general = {
     hostname                   = local.nodes[0].aws.name
     package_reboot_if_required = true
@@ -31,7 +31,7 @@ module "cloud_init" {
 }
 
 module "network" {
-  source       = "../../modules/aws/network"
+  source       = "../../../modules/aws/network"
   network_name = local.networks[0].aws.name
 }
 
