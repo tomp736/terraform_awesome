@@ -10,6 +10,10 @@ module "networks" {
 module "node_group" {
   source = "../../../modules/hetzner/node_group"
   nodes  = local.config_nodes
+  sshd_config = {
+    ssh_user = "sysadmin"
+    ssh_port = "2222"
+  }
   public_keys = [
     var.github_public_key
   ]
