@@ -94,7 +94,9 @@ jobs:
         echo "${KEYFILE}" | ssh-add -
         terraform -chdir=${{ inputs.TESTPATH }} apply tfplan
     - 
-      name: Terraform Plan
+      name: Terraform Destroy
+      if: always()
       run: terraform -chdir=${{ inputs.TESTPATH }} destroy --var-file=default.tfvars -auto-approve -input=false
       env:
         TF_CLI_CONFIG_FILE: default.tfrc
+
