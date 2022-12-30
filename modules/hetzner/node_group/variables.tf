@@ -17,7 +17,6 @@ variable "sshd_config" {
     ssh_port = string
     ssh_user = string
   })
-  default = null
 }
 
 variable "public_keys" {
