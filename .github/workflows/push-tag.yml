@@ -19,7 +19,7 @@ jobs:
         shell: bash
         run: |
           echo $(git tag | sort -V | tail -1)
-          echo "version=$(git tag | sort -V | tail -1)" >> $GITHUB_OUTPUT
+          echo "version=$(git ls-remote --tag origin | cut -d '/' -f 3 | sort -V | tail -1)" >> $GITHUB_OUTPUT
       
       # Increment the patch version number by one
       - id: patch_version
