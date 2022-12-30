@@ -13,121 +13,14 @@ permissions:
 
 jobs:
   terraform:
-    name: 'Terraform'
-    runs-on: ubuntu-latest
-    env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-
-    defaults:
-      run:
-        shell: bash
+    uses: ./.github/workflows/deploy-test.yml
 
     strategy:
       fail-fast: false
-
-    steps:
-    - 
-      name: Checkout
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ env.BRANCH_NAME }}
-    - 
-      name: Create keypair for test.
-      run: |
-        ssh-keygen -t ed25519 -N '' -f id_ed25519
-        xargs -a id_ed25519 -I{} -d'\n' echo ::add-mask::{}
-        xargs -a id_ed25519.pub -I{} -d'\n' echo ::add-mask::{}
-    - 
-      name: Load keypair for test.
-      run: |
-        echo "Loading KEYFILE \"id_ed25519\" into GITHUB_ENV."
-        echo 'KEYFILE<<EOF' >> $GITHUB_ENV
-        cat id_ed25519 >> $GITHUB_ENV
-        echo EOF >> $GITHUB_ENV
-
-        echo "Loading PUBKEYFILE \"id_ed25519.pub\" into GITHUB_ENV."
-        echo 'PUBKEYFILE<<EOF' >> $GITHUB_ENV
-        cat id_ed25519.pub >> $GITHUB_ENV
-        echo EOF >> $GITHUB_ENV
-    - 
-      name: Create vars file for test.
-      run: |
-        cd tests/aws
-        # echo "test_id = \"${{ env.BRANCH_NAME }}-${{ matrix.image }}\"" > default.tfvars
-        echo "test_id = \"${{ env.BRANCH_NAME }}\"" > default.tfvars
-        echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
-    - 
-      name: Create aws credentials and config files.
-      run: |
-        cd tests/aws
-        mkdir -p .aws
-        echo ".aws/credentials"
-        echo "[default]" > .aws/credentials
-        echo "aws_access_key_id = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" >> .aws/credentials
-        echo "aws_secret_access_key = \"${{ secrets.AWS_SECRET_ACCESS_KEY }}\"" >> .aws/credentials
-
-        echo ".aws/config"
-        echo "[default]" > .aws/config
-        echo "region = \"eu-north-1\"" >> .aws/config
-    - 
-      name: Update config files for test.
-      run: |
-        cd tests/aws
-        # sed -i 's|aws.name|${{ env.BRANCH_NAME }}-${{ matrix.image }}|' files/config.json
-        sed -i 's|aws.name|${{ env.BRANCH_NAME }}|' files/config.json
-    - 
-      name: Terraform Plan
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/aws
-        verb: plan
-        init: yes
-        varsFile: default.tfvars
-        planFile: tfplan
-    - 
-      name: Terraform Apply
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/aws
-        verb: apply
-        init: yes
-        varsFile: default.tfvars
-        planFile: tfplan
-    - 
-      name: Sleep
-      run: |
-        echo "Will destroy node in 1 minute."
-        sleep 1m
-    - 
-      if: always()
-      id: destroy
-      continue-on-error: true
-      name: Terraform Destroy
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/aws
-        verb: destroy
-        init: yes
-        varsFile: default.tfvars
-    - 
-      if: always() && steps.destroy.outcome == 'failure'
-      id: destroy2
-      continue-on-error: true
-      name: Terraform Destroy Retry
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/aws
-        verb: destroy
-        init: yes
-        varsFile: default.tfvars
-    - 
-      if: always() && steps.destroy2.outcome == 'failure'
-      id: destroy3
-      continue-on-error: true
-      name: Terraform Destroy Retry
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/aws
-        verb: destroy
-        init: yes
-        varsFile: default.tfvars
+      matrix: 
+        image: [ debian-11, fedora-37, rocky-9, ubuntu-22.04 ]
+        testpath: [ tests/aws/node ]
+        
+    with:
+      IMAGE: ${{ matrix.image }}
+      TESTPATH: ${{ matrix.testpath }}
