@@ -69,8 +69,8 @@ jobs:
       name: Update config files for test.
       run: |
         cd ${{ inputs.TESTPATH }}
-        sed -i 's|hetzner.node|${{ github.run_id }}-${{ inputs.IMAGE }}-node|' files/config.json
-        sed -i 's|hetzner.network|${{ github.run_id }}-${{ inputs.IMAGE }}-net|' files/config.json
+        sed -i 's|hetzner.node|${{ github.action }}-${{ inputs.IMAGE }}-node|' files/config.json
+        sed -i 's|hetzner.network|${{ github.action }}-${{ inputs.IMAGE }}-net|' files/config.json
         sed -i 's|hetzner.image|${{ inputs.IMAGE }}|' files/config.json
     - 
       name: Terraform Init
