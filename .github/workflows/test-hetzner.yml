@@ -13,8 +13,10 @@ permissions:
 
 jobs:
   terraform:
-    name: 'Terraform'
+    name: 'terraform'
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/labrats-work/ops-images/omnibus:latest
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
@@ -66,53 +68,23 @@ jobs:
         sed -i 's|hetzner.network|${{ github.sha }}-${{ matrix.image }}-net|' files/config.json
         sed -i 's|hetzner.image|${{ matrix.image }}|' files/config.json
     - 
+      name: Terraform Init
+      run: terraform -chdir=tests/${{ matrix.test }} init -backend-config=config.remote.tfbackend
+      env:
+        TF_CLI_CONFIG_FILE: default.tfrc
+    - 
       name: Terraform Plan
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/${{ matrix.test }}
-        verb: plan
-        init: yes
-        varsFile: default.tfvars
-        planFile: tfplan
+      run: terraform -chdir=tests/${{ matrix.test }} plan --var-file=default.tfvars -out=tfplan -input=false
+      env:
+        TF_CLI_CONFIG_FILE: default.tfrc
     - 
       name: Terraform Apply
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/${{ matrix.test }}
-        verb: apply
-        init: yes
-        varsFile: default.tfvars
-        planFile: tfplan
+      run: |      
+        eval `ssh-agent`
+        echo "${KEYFILE}" | ssh-add -
+        terraform -chdir=tests/${{ matrix.test }} apply tfplan
     - 
-      if: always()
-      id: destroy
-      continue-on-error: true
-      name: Terraform Destroy
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/${{ matrix.test }}
-        verb: destroy
-        init: yes
-        varsFile: default.tfvars
-    - 
-      if: always() && steps.destroy.outcome == 'failure'
-      id: destroy2
-      continue-on-error: true
-      name: Terraform Destroy Retry
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/${{ matrix.test }}
-        verb: destroy
-        init: yes
-        varsFile: default.tfvars
-    - 
-      if: always() && steps.destroy2.outcome == 'failure'
-      id: destroy3
-      continue-on-error: true
-      name: Terraform Destroy Retry
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/${{ matrix.test }}
-        verb: destroy
-        init: yes
-        varsFile: default.tfvars
+      name: Terraform Plan
+      run: terraform -chdir=tests/${{ matrix.test }} destroy --var-file=default.tfvars -auto-approve -input=false
+      env:
+        TF_CLI_CONFIG_FILE: default.tfrc
