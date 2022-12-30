@@ -40,7 +40,7 @@ module "node" {
     module.network
   ]
 
-  source               = "../../modules/aws/node"
+  source               = "../../../modules/aws/node"
   node_config          = local.nodes[0].aws
   subnet_id            = values(module.network.aws_subnets)[0].id
   cloud_init_user_data = module.cloud_init.user_data
