@@ -13,7 +13,6 @@ permissions:
 
 jobs:
   terraform:
-    name: 'terraform'
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/labrats-work/ops-images/omnibus:latest
@@ -57,7 +56,7 @@ jobs:
     - 
       name: Create vars file for test.
       run: |
-        cd tests/hetzner
+        cd tests/${{ matrix.test }}
         echo "hcloud_token = \"${{ secrets.HETZNER_TOKEN }}\"" >> default.tfvars
         echo "github_public_key = \"${{ env.PUBKEYFILE }}\"" >> default.tfvars
     - 
