@@ -33,7 +33,5 @@ jobs:
       
       # Commit the changes to the repository without pushing
       - run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
           git tag ${{ steps.patch_version.outputs.new_version }}
           git push origin --tags
