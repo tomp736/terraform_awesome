@@ -1,4 +1,4 @@
-name: 'Full Test and Tag'
+name: 'Push Tag'
 
 on:
   workflow_call:
@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Check out the repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       
-      # Read the current version number from the galaxy.yml file
+      # Read the current version number from git ls-remote
       - id: current_version
         shell: bash
         run: |
