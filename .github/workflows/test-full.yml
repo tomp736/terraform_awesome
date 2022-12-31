@@ -12,7 +12,7 @@ on:
       - 'tests/hetzner/**'
 
 permissions:
-  workflows: write
+  actions: write
 
 jobs:
   # aws:
