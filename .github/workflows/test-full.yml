@@ -2,9 +2,8 @@ name: 'Deploy Test and Tag'
 
 on:
   push:
-
-permissions:
-  contents: read
+    branches: 
+      - main
 
 jobs:
   # aws:
