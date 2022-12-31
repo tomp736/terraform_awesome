@@ -8,11 +8,7 @@ output "user_data" {
     package_upgrade            = var.general.package_upgrade
     package_reboot_if_required = var.general.package_reboot_if_required
     final_message              = var.general.final_message
-    power_state = {
-      mode      = var.general.power_state.mode
-      message   = var.general.power_state.message
-      condition = var.general.power_state.condition
-    }
+    power_state                = var.general.power_state
     users = [
       for user in var.users_data : merge(
         {

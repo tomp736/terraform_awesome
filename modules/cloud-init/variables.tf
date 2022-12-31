@@ -12,7 +12,11 @@ variable "general" {
       mode      = optional(string, "reboot"),
       message   = optional(string, "Finished cloud init. Rebooting."),
       condition = optional(bool, true)
-    }))
+      }), {
+      mode           = "reboot",
+      message        = "Finished cloud init. Rebooting.",
+      network_config = true
+    })
   })
 }
 
