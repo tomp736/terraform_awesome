@@ -13,10 +13,9 @@ permissions:
 
 jobs:
   terraform:
-    name: 'Terraform'
     runs-on: ubuntu-latest
-    env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    container:
+      image: ghcr.io/labrats-work/ops-images/omnibus:latest
 
     defaults:
       run:
@@ -29,21 +28,24 @@ jobs:
       with:
         ref: ${{ env.BRANCH_NAME }}
     - 
+      name: Terraform Init
+      run: terraform -chdir=tests/cloud-init init -backend-config=config.remote.tfbackend
+      env:
+        TF_CLI_CONFIG_FILE: default.tfrc
+    - 
       name: Terraform Plan
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/cloud-init
-        verb: plan
-        init: yes
-        planFile: tfplan
+      run: terraform -chdir=tests/cloud-init plan --var-file=default.tfvars -out=tfplan -input=false
+      env:
+        TF_CLI_CONFIG_FILE: default.tfrc
     - 
       name: Terraform Apply
-      uses: labrats-work/action-terraform@main
-      with:
-        chdir: tests/cloud-init
-        verb: apply
-        init: yes
-        planFile: tfplan
+      run: terraform -chdir=tests/cloud-init apply tfplan
+    - 
+      name: Terraform Destroy
+      if: always()
+      run: terraform -chdir=tests/cloud-init destroy --var-file=default.tfvars -auto-approve -input=false
+      env:
+        TF_CLI_CONFIG_FILE: default.tfrc
     - 
       name: Upload metadata file
       uses: actions/upload-artifact@v3
