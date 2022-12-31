@@ -41,12 +41,6 @@ jobs:
       name: Terraform Apply
       run: terraform -chdir=tests/cloud-init apply tfplan
     - 
-      name: Terraform Destroy
-      if: always()
-      run: terraform -chdir=tests/cloud-init destroy -auto-approve -input=false
-      env:
-        TF_CLI_CONFIG_FILE: default.tfrc
-    - 
       name: Upload metadata file
       uses: actions/upload-artifact@v3
       with:
@@ -82,3 +76,9 @@ jobs:
         cd tests/cloud-init
         diff user_data default/user_data || exit 1
         exit 0
+    - 
+      name: Terraform Destroy
+      if: always()
+      run: terraform -chdir=tests/cloud-init destroy -auto-approve -input=false
+      env:
+        TF_CLI_CONFIG_FILE: default.tfrc
