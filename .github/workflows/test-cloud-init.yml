@@ -29,12 +29,12 @@ jobs:
         ref: ${{ env.BRANCH_NAME }}
     - 
       name: Terraform Init
-      run: terraform -chdir=tests/cloud-init init -backend-config=config.remote.tfbackend
+      run: terraform -chdir=tests/cloud-init init
       env:
         TF_CLI_CONFIG_FILE: default.tfrc
     - 
       name: Terraform Plan
-      run: terraform -chdir=tests/cloud-init plan --var-file=default.tfvars -out=tfplan -input=false
+      run: terraform -chdir=tests/cloud-init plan -out=tfplan -input=false
       env:
         TF_CLI_CONFIG_FILE: default.tfrc
     - 
@@ -43,7 +43,7 @@ jobs:
     - 
       name: Terraform Destroy
       if: always()
-      run: terraform -chdir=tests/cloud-init destroy --var-file=default.tfvars -auto-approve -input=false
+      run: terraform -chdir=tests/cloud-init destroy -auto-approve -input=false
       env:
         TF_CLI_CONFIG_FILE: default.tfrc
     - 
