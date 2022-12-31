@@ -10,6 +10,9 @@ on:
       - 'modules/hetzner/**'
       - 'tests/hetzner/**'
 
+permissions:
+  workflows: write
+  
 jobs:
   # aws:
   #   uses: ./.github/workflows/deploy-test.yml
