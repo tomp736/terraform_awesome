@@ -4,6 +4,11 @@ on:
   push:
     branches: 
       - main
+    paths:
+      - 'modules/aws/**'
+      - 'tests/aws/**'
+      - 'modules/hetzner/**'
+      - 'tests/hetzner/**'
 
 jobs:
   # aws:
