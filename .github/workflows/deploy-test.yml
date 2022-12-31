@@ -69,7 +69,7 @@ jobs:
       name: Set outputs
       id: configvars
       run: |
-        echo "::set-output name=test_tag::$(echo "${{ inputs.IMAGE }}-${{ github.run_id }}-${{ inputs.TESTPATH }}" | sed 's|/|-|g' | sed 's|_||g')"
+        echo "test_tag=$(echo "${{ inputs.IMAGE }}-${{ github.run_id }}-${{ inputs.TESTPATH }}" | sed 's|/|-|g' | sed 's|_||g')" >> $GITHUB_OUTPUT
     - 
       name: Update config files for test.
       run: |

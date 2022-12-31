@@ -7,19 +7,19 @@ permissions:
   contents: read
 
 jobs:
-  aws:
-    uses: ./.github/workflows/deploy-test.yml
-    secrets: inherit
+  # aws:
+  #   uses: ./.github/workflows/deploy-test.yml
+  #   secrets: inherit
 
-    strategy:
-      fail-fast: false
-      matrix: 
-        image: [ ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-* ]
-        testpath: [ tests/aws/node ]
+  #   strategy:
+  #     fail-fast: false
+  #     matrix: 
+  #       image: [ ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-* ]
+  #       testpath: [ tests/aws/node ]
         
-    with:
-      IMAGE: ${{ matrix.image }}
-      TESTPATH: ${{ matrix.testpath }}
+  #   with:
+  #     IMAGE: ${{ matrix.image }}
+  #     TESTPATH: ${{ matrix.testpath }}
 
   hetzner:
     uses: ./.github/workflows/deploy-test.yml
