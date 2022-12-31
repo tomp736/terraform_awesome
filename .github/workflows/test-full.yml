@@ -11,9 +11,6 @@ on:
       - 'modules/hetzner/**'
       - 'tests/hetzner/**'
 
-permissions:
-  actions: write
-
 jobs:
   # aws:
   #   uses: ./.github/workflows/deploy-test.yml
