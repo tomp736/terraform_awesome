@@ -4,15 +4,14 @@ on:
   workflow_call:
   workflow_dispatch:
 
-permissions:
-  actions: write
-
 jobs:
   push-tag:
     runs-on: ubuntu-latest
     steps:
       # Check out the repository
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.WORKFLOW_TOKEN }}
       
       # Read the current version number from git ls-remote
       - id: current_version
@@ -38,6 +37,3 @@ jobs:
           git config --local user.name "GitHub Action"
           git tag ${{ steps.patch_version.outputs.new_version }}
           git push origin --tags
-          
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
