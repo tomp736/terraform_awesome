@@ -1,0 +1,31 @@
+name: 'Deploy Test and Tag'
+
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+      - main
+    paths:
+      - 'modules/hetzner/**'
+      - 'tests/hetzner/**'
+
+jobs:
+
+  hetzner:
+    uses: ./.github/workflows/deploy-test.yml
+    secrets: inherit
+
+    strategy:
+      fail-fast: false
+      matrix: 
+        image: [ debian-11, fedora-37, rocky-9, ubuntu-22.04 ]
+        testpath: [ tests/hetzner/node, tests/hetzner/node_group ]
+        
+    with:
+      IMAGE: ${{ matrix.image }}
+      TESTPATH: ${{ matrix.testpath }}
+
+  push-tag:
+    needs: [ hetzner]
+    uses: ./.github/workflows/push-tag.yml
+    secrets: inherit
