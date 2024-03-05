@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: 
-        image: [ debian-11, fedora-37, rocky-9, ubuntu-22.04 ]
+        image: [ debian-12, fedora-39, rocky-9, ubuntu-22.04 ]
         testpath: [ tests/hetzner/node, tests/hetzner/node_group ]
         
     with:
