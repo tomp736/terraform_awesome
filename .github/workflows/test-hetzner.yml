@@ -24,8 +24,3 @@ jobs:
     with:
       IMAGE: ${{ matrix.image }}
       TESTPATH: ${{ matrix.testpath }}
-
-  push-tag:
-    needs: [ hetzner]
-    uses: ./.github/workflows/push-tag.yml
-    secrets: inherit

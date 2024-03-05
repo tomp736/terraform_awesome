@@ -22,7 +22,10 @@ resource "aws_network_interface" "default" {
 }
 
 resource "aws_eip" "default" {
-  vpc               = true
+  depends_on = [
+    aws_instance.node
+  ]
+  domain   = "vpc"
   network_interface = aws_network_interface.default.id
 
   tags = {

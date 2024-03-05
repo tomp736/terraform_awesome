@@ -23,8 +23,3 @@ jobs:
     with:
       IMAGE: ${{ matrix.image }}
       TESTPATH: ${{ matrix.testpath }}
-
-  push-tag:
-    needs: [ aws ]
-    uses: ./.github/workflows/push-tag.yml
-    secrets: inherit
