@@ -1,4 +1,4 @@
-name: 'Hetzner Full Test'
+name: 'Test - Hetzner'
 
 on:
   workflow_dispatch:
