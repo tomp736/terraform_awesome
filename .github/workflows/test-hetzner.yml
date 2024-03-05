@@ -1,4 +1,4 @@
-name: 'Deploy Test and Tag'
+name: 'Hetzner Full Test'
 
 on:
   workflow_dispatch:
