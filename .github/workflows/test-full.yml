@@ -1,4 +1,4 @@
-name: 'Deploy Test and Tag'
+name: 'Test - Aws'
 
 on:
   workflow_dispatch:
@@ -8,39 +8,23 @@ on:
     paths:
       - 'modules/aws/**'
       - 'tests/aws/**'
-      - 'modules/hetzner/**'
-      - 'tests/hetzner/**'
 
 jobs:
-  # aws:
-  #   uses: ./.github/workflows/deploy-test.yml
-  #   secrets: inherit
-
-  #   strategy:
-  #     fail-fast: false
-  #     matrix: 
-  #       image: [ ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-* ]
-  #       testpath: [ tests/aws/node ]
-        
-  #   with:
-  #     IMAGE: ${{ matrix.image }}
-  #     TESTPATH: ${{ matrix.testpath }}
-
-  hetzner:
+  aws:
     uses: ./.github/workflows/deploy-test.yml
     secrets: inherit
 
     strategy:
       fail-fast: false
       matrix: 
-        image: [ debian-11, fedora-37, rocky-9, ubuntu-22.04 ]
-        testpath: [ tests/hetzner/node, tests/hetzner/node_group ]
+        image: [ ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-* ]
+        testpath: [ tests/aws/node ]
         
     with:
       IMAGE: ${{ matrix.image }}
       TESTPATH: ${{ matrix.testpath }}
 
   push-tag:
-    needs: [ hetzner]
+    needs: [ aws ]
     uses: ./.github/workflows/push-tag.yml
     secrets: inherit
