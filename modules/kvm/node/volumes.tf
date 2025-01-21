@@ -21,7 +21,7 @@ resource "libvirt_volume" "volume_data" {
 
 resource "libvirt_cloudinit_disk" "cloudinit" {
   name = "${local.vm_global.volume_name_prefix}${local.vm_global.name}_cloud_init.iso"
-  pool = "kvm-pool"
+  pool = local.vm_global.cloud_init_pool
 
   user_data      = "#cloud-config\n${local.cloud_init_user_data}"
   network_config = local.cloud_init_network_config
