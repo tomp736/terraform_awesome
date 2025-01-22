@@ -15,6 +15,7 @@ output "user_data" {
           name                = user.name
           shell               = user.shell
           ssh-authorized-keys = user.ssh-authorized-keys
+          ssh_import_id       = user.ssh_import_id
         },
         user.name != "root" ? {
           sudo   = "ALL=(ALL) NOPASSWD:ALL"

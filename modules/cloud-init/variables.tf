@@ -45,14 +45,16 @@ variable "users_data" {
   type = list(object(
     {
       name                = string,
-      shell               = string
-      ssh-authorized-keys = list(string)
+      shell               = string,
+      ssh-authorized-keys = list(string),
+      ssh_import_id       = string
     }
   ))
   default = [{
     name                = "root"
     shell               = "/bin/bash"
     ssh-authorized-keys = []
+    ssh_import_id       = ""
   }]
   sensitive = true
 }
