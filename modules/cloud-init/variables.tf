@@ -54,6 +54,7 @@ variable "users_data" {
     name                = "root"
     shell               = "/bin/bash"
     ssh-authorized-keys = []
+    ssh_import_id       = ""
   }]
   sensitive = true
 }
