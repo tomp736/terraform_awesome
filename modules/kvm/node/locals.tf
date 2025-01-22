@@ -62,12 +62,13 @@ locals {
         {
           name                = "${cloud_init_user.username}"
           shell               = "/bin/bash"
-          ssh-authorized-keys = cloud_init_user.public_keys
+          ssh-authorized-keys = "${cloud_init_user.public_keys}"
+          ssh_import_id       = "${cloud_init_user.ssh_import_id}"
         },
         cloud_init_user.username != "root" ? {
-          sudo   = "ALL=(ALL) NOPASSWD:ALL"
-          groups = "sudo"
-          home   = "/home/${cloud_init_user.username}"
+          sudo           = "ALL=(ALL) NOPASSWD:ALL"
+          groups         = "sudo"
+          home           = "/home/${cloud_init_user.username}"
         } : {}
       )
     ]
